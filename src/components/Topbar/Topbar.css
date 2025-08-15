@@ -1,0 +1,49 @@
+.topbar{
+    background-color: hsl(0, 0%, 92%);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    z-index: 1000;
+}
+
+.button{
+    border: none;
+    border-radius: 5px;
+    background-color: hsl(0, 0%, 92%);
+    padding: 1px 5px;
+    color: rgb(81, 81, 81);
+    transition: margin-left 0.2s ease;
+    cursor: pointer;
+}
+
+.button:hover{
+    background-color: hsl(0, 1%, 86%);
+
+}
+
+.button.open{
+    margin-left: 216px;
+}
+
+.button.closed{
+    margin-left: 0px;
+}
+
+.topbar-object{
+    /* border-left: solid 1px; */
+    box-shadow: -1px 0px 5px rgba(0, 0, 0, 0.15);
+    border-color: rgb(125, 125, 125);
+    height: 100%;
+    transition: width 0.1s ease;
+}
+
+.topbar-object.open{
+    width: 100vw;
+
+}
+
+.topbar-object.closed{
+    width: 95vw;
+}

@@ -1,0 +1,77 @@
+.main {
+    height: 100vh;
+}
+
+.sidebar {
+    background-color: #ebebeb;
+    color: white;
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    transition: left 0.2s ease;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.sidebar.show {
+    left: 0; /* slide in */
+}
+
+.sidebar.hide {
+    left: -250px; /* slide out */
+}
+
+.fav-sidebar{
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.fav-header{
+    display: flex;
+    align-items: center;
+}
+
+.fav-text{
+    color:rgb(81, 81, 81);
+    padding-right: 20px ;
+}
+
+.all-shelves-sidebar{
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.all-shelves-text{
+    color:rgb(81, 81, 81);
+    padding-right: 10px;
+}
+
+
+.add-btn {
+    border: none; /* Remove default border */
+    padding: 5px; /* Small padding for clickable area */
+    display: flex; /* Center icon */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Show pointer on hover */
+    border-radius: 5px;
+    background-color: #ebebeb;
+    transition: background-color 0.2s ease;
+  }
+  
+.add-btn:hover {
+    background-color: rgb(81, 81, 81); /* Light hover effect */
+}
+
+.add-icon {
+width: 15px;
+height: 15px;
+fill: rgb(81, 81, 81); /* Icon color */
+}
+
+.all-shelves-header{
+    display: flex;
+    align-items: center;
+}
