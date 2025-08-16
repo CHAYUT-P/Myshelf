@@ -75,3 +75,25 @@ fill: rgb(81, 81, 81); /* Icon color */
     display: flex;
     align-items: center;
 }
+
+.shelves-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+.shelf-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    color: rgb(81, 81, 81);
+    border-radius: 4px;
+}
+
+.shelf-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.shelf-item.active {
+    background-color: rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}
