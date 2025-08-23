@@ -3,7 +3,9 @@
 }
 
 .sidebar {
-    background-color: #ebebeb;
+    background-color: #f5f5f5;
+    border-right:solid 1px ;
+    border-color: #e7e7e7;
     color: white;
     height: 100vh;
     width: 250px;
@@ -40,7 +42,7 @@
 
 .all-shelves-sidebar{
     padding-top: 60px;
-    padding-left: 20px;
+    padding-left: 0px;
 }
 
 .all-shelves-text{
@@ -74,13 +76,18 @@ fill: rgb(81, 81, 81); /* Icon color */
 .all-shelves-header{
     display: flex;
     align-items: center;
+    padding-left: 20px;
 }
 
 .shelves-list {
     list-style: none;
-    padding: 0;
+    padding-left: 0cqi;
     margin: 0;
   }
+
+.shelf-item span {
+    padding-left: 20px;
+}
   
 .shelf-item {
     padding: 6px 12px;

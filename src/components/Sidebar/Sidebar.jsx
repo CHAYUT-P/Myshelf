@@ -7,7 +7,8 @@ export default function Sidebar({
   shelves,
   activeShelfId,
   onSelectShelf,
-  onAddShelf
+  onAddShelf,
+  onRenameShelf
 }) {
   return (
     <div className={`sidebar ${isOpen ? "show" : "hide"}`}>
@@ -40,7 +41,20 @@ export default function Sidebar({
               className={`shelf-item ${shelf.id === activeShelfId ? "active" : ""}`}
               onClick={() => onSelectShelf(shelf.id)}
             >
-              {shelf.name}
+              {/* ✅ inline editing */}
+              {shelf.isNaming ? (
+                <input
+                  type="text"
+                  defaultValue={shelf.name}
+                  autoFocus
+                  onBlur={(e) => onRenameShelf(shelf.id, e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") onRenameShelf(shelf.id, e.target.value);
+                  }}
+                />
+              ) : (
+                <span>{shelf.name}</span>
+              )}
             </li>
           ))}
         </ul>
