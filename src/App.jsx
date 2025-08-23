@@ -5,8 +5,9 @@ import Topbar from "./components/Topbar/Topbar";
 
 function App() {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);
-  const [shelves, setShelves] = useState([{ id: 1, name: "Shelf 1" }]);
+  const [shelves, setShelves] = useState([{ id: 1, name: "Shelf 1", isNaming:false }]);
   const [activeShelf, setActiveShelf] = useState(1);
+
 
   const handleAddShelf = () => {
     let newId;
@@ -17,7 +18,7 @@ function App() {
       newId = 1;
     }
 
-    const newShelf = { id: newId, name: `Shelf ${newId}` };
+    const newShelf = { id: newId, name: `Shelf ${newId}`,isNaming:true };
     const updatedShelves = [...shelves, newShelf];
 
     setShelves(updatedShelves);
@@ -32,6 +33,13 @@ function App() {
     setIsLeftbarOpen(!isLeftbarOpen);
   };
 
+  const handleRenameShelf = (id, newName) => {
+    const updatedShelves = shelves.map((shelf) =>
+      shelf.id === id ? { ...shelf, name: newName, isNaming: false } : shelf
+    );
+    setShelves(updatedShelves);
+  };
+
   // Find current shelf
   const nowActiveShelf = shelves.find((s) => s.id === activeShelf) || null;
 
@@ -44,6 +52,7 @@ function App() {
         activeShelfId={activeShelf}
         onSelectShelf={handleSelectShelf}
         onAddShelf={handleAddShelf}
+        onRenameShelf={handleRenameShelf}
       />
     </div>
   );
