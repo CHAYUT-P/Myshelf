@@ -29,6 +29,15 @@ function App() {
   const handleSelectShelf = (id) => {
     setActiveShelf(id);
   };
+  
+  const startRenaming = (id) => {
+    setShelves(prev =>
+      prev.map(shelf =>
+        shelf.id === id ? { ...shelf, isNaming: true } : shelf
+      )
+    );
+  };
+  
 
   // Rename a shelf
   const handleRenameShelf = (id, newName) => {
@@ -38,15 +47,15 @@ function App() {
     setShelves(updatedShelves);
   };
 
-  // Add a book to a shelf
-  const handleAddBook = (shelfId, bookName) => {
+  const handleAddBook = (shelfId, book) => {
     const updatedShelves = shelves.map((shelf) =>
       shelf.id === shelfId
-        ? { ...shelf, books: [...shelf.books, { id: Date.now(), name: bookName }] }
+        ? { ...shelf, books: [...shelf.books, { ...book, id: Date.now() }] }
         : shelf
     );
     setShelves(updatedShelves);
   };
+
 
   return (
     <div>
@@ -58,6 +67,7 @@ function App() {
         onSelectShelf={handleSelectShelf}
         onAddShelf={handleAddShelf}
         onRenameShelf={handleRenameShelf}
+        startRenaming={startRenaming}
       />
       <MainTab
         activeShelfId={activeShelf}
