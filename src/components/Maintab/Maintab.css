@@ -1,0 +1,27 @@
+.main-tab {
+    margin-left: 0px; /* adjust if sidebar width changes */
+    padding: 30px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+    transition: margin-left 0.2s ease;
+}
+
+.main-tab.open {
+    margin-left: 250px; /* adjust if sidebar width changes */
+}
+
+.addbook-button{
+    background-color: #f4f4f4;
+    border: none;
+    outline: none;
+}
+
+.addbook-button:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    outline: none;
+}
+
+
+
+  

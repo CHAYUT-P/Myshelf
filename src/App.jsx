@@ -1,38 +1,36 @@
 import { useState } from "react";
 import "./App.css";
-import Sidebar from "./components/Leftbar/Sidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 import Topbar from "./components/Topbar/Topbar";
+import MainTab from "./components/Maintab/Maintab";
 
 function App() {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);
-  const [shelves, setShelves] = useState([{ id: 1, name: "Shelf 1", isNaming:false }]);
+  const [shelves, setShelves] = useState([
+    { id: 1, name: "Shelf 1", isNaming: false, books: [] }
+  ]);
   const [activeShelf, setActiveShelf] = useState(1);
 
-
-  const handleAddShelf = () => {
-    let newId;
-
-    if (shelves.length > 0) {
-      newId = shelves[shelves.length - 1].id + 1;
-    } else {
-      newId = 1;
-    }
-
-    const newShelf = { id: newId, name: `Shelf ${newId}`,isNaming:true };
-    const updatedShelves = [...shelves, newShelf];
-
-    setShelves(updatedShelves);
-    setActiveShelf(newId);
-  };
-
-  const handleSelectShelf = (id) => {
-    setActiveShelf(id);
-  };
-
+  // Toggle sidebar
   const toggleLeftbar = () => {
     setIsLeftbarOpen(!isLeftbarOpen);
   };
 
+  // Add a new shelf
+  const handleAddShelf = () => {
+    const newId = shelves.length > 0 ? shelves[shelves.length - 1].id + 1 : 1;
+    const newShelf = { id: newId, name: `Shelf ${newId}`, isNaming: true, books: [] };
+    const updatedShelves = [...shelves, newShelf];
+    setShelves(updatedShelves);
+    setActiveShelf(newId);
+  };
+
+  // Select a shelf
+  const handleSelectShelf = (id) => {
+    setActiveShelf(id);
+  };
+
+  // Rename a shelf
   const handleRenameShelf = (id, newName) => {
     const updatedShelves = shelves.map((shelf) =>
       shelf.id === id ? { ...shelf, name: newName, isNaming: false } : shelf
@@ -40,8 +38,15 @@ function App() {
     setShelves(updatedShelves);
   };
 
-  // Find current shelf
-  const nowActiveShelf = shelves.find((s) => s.id === activeShelf) || null;
+  // Add a book to a shelf
+  const handleAddBook = (shelfId, bookName) => {
+    const updatedShelves = shelves.map((shelf) =>
+      shelf.id === shelfId
+        ? { ...shelf, books: [...shelf.books, { id: Date.now(), name: bookName }] }
+        : shelf
+    );
+    setShelves(updatedShelves);
+  };
 
   return (
     <div>
@@ -53,6 +58,12 @@ function App() {
         onSelectShelf={handleSelectShelf}
         onAddShelf={handleAddShelf}
         onRenameShelf={handleRenameShelf}
+      />
+      <MainTab
+        activeShelfId={activeShelf}
+        shelves={shelves}
+        onAddBook={handleAddBook}
+        isOpen={isLeftbarOpen}
       />
     </div>
   );

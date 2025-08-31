@@ -44,6 +44,7 @@ export default function Sidebar({
               {/* ✅ inline editing */}
               {shelf.isNaming ? (
                 <input
+                  className="naming-input"
                   type="text"
                   defaultValue={shelf.name}
                   autoFocus

@@ -59,12 +59,12 @@
     justify-content: center;
     cursor: pointer; /* Show pointer on hover */
     border-radius: 5px;
-    background-color: #ebebeb;
+    background-color: #f4f4f4;
     transition: background-color 0.2s ease;
   }
   
 .add-btn:hover {
-    background-color: rgb(81, 81, 81); /* Light hover effect */
+    background-color: rgba(0, 0, 0, 0.1); /* Light hover effect */
 }
 
 .add-icon {
@@ -103,4 +103,15 @@ fill: rgb(81, 81, 81); /* Icon color */
 .shelf-item.active {
     background-color: rgba(0, 0, 0, 0.1);
     font-weight: bold;
+}
+
+.naming-input{
+    background-color: #e7e7e7;
+    border: none;
+    outline: none; 
+    background: transparent;
+    border-radius: 0;
+    width: 90%;
+    margin-left: 18px;
+    font-size: 14px;
 }
