@@ -40,7 +40,9 @@
     height: 100%;
     transition: width 0.1s ease;
     border-color: #e7e7e7;
-
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 .topbar-object.open{
@@ -50,4 +52,15 @@
 
 .topbar-object.closed{
     width: 95vw;
+}
+
+.favbutton{
+    margin-right: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.favIcon {
+    padding: 0;
 }

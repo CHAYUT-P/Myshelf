@@ -34,7 +34,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
   ];
 
   const [suggestions, setSuggestions] = useState([]);
-  const [typingTimeout, setTypingTimeout] = useState(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -57,8 +56,7 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
       setFormData({ ...formData, [name]: value });
 
       if (name === "title") {
-        if (typingTimeout) clearTimeout(typingTimeout);
-        setTypingTimeout(setTimeout(() => fetchBookSuggestions(value), 500));
+        fetchBookSuggestions(value);
       }
     }
   };
@@ -178,7 +176,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
             <input type="file" name="seriesCover" onChange={handleChange} />
             <input type="text" name="volumeNumber" placeholder="Volume Number" value={formData.volumeNumber} onChange={handleChange} />
 
-            {/* Category */}
             <div className="form-group">
                 <label>Primary Category *</label>
                 <select
@@ -196,7 +193,7 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
 
             {/* Genres */}
             <div className="form-group">
-                <label>Genres (select multiple)</label>
+                <label className="genres-text">Genres</label>
                 <div className="genres-buttons">
                 {genresList.map(genre => (
                     <button

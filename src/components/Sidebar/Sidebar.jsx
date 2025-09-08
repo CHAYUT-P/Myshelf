@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Sidebar.css";
 import PlusButton from "./plus-large-svgrepo-com.svg?react";
+import TrashIcon from "../../assets/icons/trash-bin-trash-svgrepo-com-2.svg?react";
+import RenameIcon from "../../assets/icons/mobile-rename-ui-svgrepo-com.svg?react"
+import FavouriteIcon from "../../assets/icons/star-svgrepo-com (1).svg?react"
 
 export default function Sidebar({
   isOpen,
@@ -11,15 +14,17 @@ export default function Sidebar({
   onRenameShelf,
   onDeleteShelf,
   startRenaming,
+  onFavShelf,
+  favShelves,
 }) {
-  const [openMenuId, setOpenMenuId] = useState(null);
+  const [openMenu, setOpenMenu] = useState({ section: null, id: null });
   const sidebarRef = useRef(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        setOpenMenuId(null);
+        setOpenMenu({ section: null, id: null });
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -27,6 +32,7 @@ export default function Sidebar({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  
 
   return (
     <div
@@ -37,8 +43,65 @@ export default function Sidebar({
       <div className="fav-sidebar">
         <div className="fav-header">
           <span className="fav-text">Favourite</span>
-          <ul className="fav-list"></ul>
         </div>
+        <ul className="shelves-list">
+            {shelves
+              .filter(shelf => favShelves.includes(shelf.id))
+              .map(shelf => (
+                <li
+                  key={shelf.id}
+                  className={`shelf-item ${
+                    shelf.id === activeShelfId ? "active" : ""
+                  } ${openMenu.id === shelf.id ? "menu-open" : ""}`}
+                  onClick={() => onSelectShelf(shelf.id)}
+                >
+                  {shelf.isNaming ? (
+                    <input
+                      className="naming-input"
+                      type="text"
+                      defaultValue={shelf.name}
+                      autoFocus
+                      onBlur={(e) => handleRenameShelf(shelf.id, e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleRenameShelf(shelf.id, e.target.value);
+                      }}
+                    />
+                  ) : (
+                    <div className="shelf-row">
+                      <span className="shelf-name">{shelf.name}</span>
+                      <button
+                        className="more-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenMenu(prev =>
+                            prev.id === shelf.id && prev.section === "fav"
+                              ? { section: null, id: null }
+                              : { section: "fav", id: shelf.id }
+                          );
+                        }}
+                      >
+                        ...
+                      </button>
+
+                      {openMenu.id === shelf.id && openMenu.section === "fav" && (
+                        <div className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                          <button onClick={() => { setOpenMenu({ section: null, id: null }); startRenaming(shelf.id); }}>
+                            <RenameIcon width="1.3em" height="1.3em" className="icon" />Rename
+                          </button>
+                          <button onClick={() => { setOpenMenu({ section: null, id: null }); handleDeleteShelf(shelf.id); }}>
+                            <TrashIcon width="1.3em" height="1.3em" className="icon" />Move to Trash
+                          </button>
+                          <button onClick={() => { setOpenMenu({ section: null, id: null }); onFavShelf(shelf.id); }}>
+                            <FavouriteIcon width="1.3em" height="1.3em" className={`favicon ${favShelves.includes(shelf.id) ? "fav" : ""}`} />Favourite
+                          </button>
+                        </div>
+                      )}
+
+                    </div>
+                  )}
+                </li>
+              ))}
+          </ul>
       </div>
 
       {/* All Shelves Section */}
@@ -56,7 +119,7 @@ export default function Sidebar({
               key={shelf.id}
               className={`shelf-item ${
                 shelf.id === activeShelfId ? "active" : ""
-              } ${openMenuId === shelf.id ? "menu-open" : ""}`}
+              } ${openMenu.id === shelf.id ? "menu-open" : ""}`}
               onClick={() => onSelectShelf(shelf.id)}
             >
               {shelf.isNaming ? (
@@ -79,35 +142,30 @@ export default function Sidebar({
                     className="more-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setOpenMenuId(openMenuId === shelf.id ? null : shelf.id);
+                      setOpenMenu(prev =>
+                        prev.id === shelf.id && prev.section === "all"
+                          ? { section: null, id: null }
+                          : { section: "all", id: shelf.id }
+                      );
                     }}
                   >
                     ...
                   </button>
 
-                  {openMenuId === shelf.id && (
-                    <div
-                      className="dropdown-menu"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <button
-                        onClick={() => {
-                          setOpenMenuId(null);
-                          startRenaming(shelf.id);
-                        }}
-                      >
-                        Rename
+                  {openMenu.id === shelf.id && openMenu.section === "all" && (
+                    <div className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                      <button onClick={() => { setOpenMenu({ section: null, id: null }); startRenaming(shelf.id); }}>
+                        <RenameIcon width="1.3em" height="1.3em" className="icon" />Rename
                       </button>
-                      <button
-                        onClick={() => {
-                          setOpenMenuId(null);
-                          onDeleteShelf(shelf.id);
-                        }}
-                      >
-                        Delete
+                      <button onClick={() => { setOpenMenu({ section: null, id: null }); onDeleteShelf(shelf.id); }}>
+                        <TrashIcon width="1.3em" height="1.3em" className="icon" />Move to Trash
+                      </button>
+                      <button onClick={() =>onFavShelf(shelf.id)}>
+                        <FavouriteIcon width="1.3em" height="1.3em" className={`favicon ${favShelves.includes(shelf.id) ? "fav" : ""}`} />Favourite
                       </button>
                     </div>
                   )}
+
                 </div>
               )}
             </li>

@@ -10,7 +10,7 @@ function App() {
     { id: 1, name: "Shelf 1", isNaming: false, books: [] }
   ]);
   const [activeShelf, setActiveShelf] = useState(1);
-
+  const [favShelves, setFavShelves] = useState([])
   // Toggle sidebar
   const toggleLeftbar = () => {
     setIsLeftbarOpen(!isLeftbarOpen);
@@ -56,6 +56,27 @@ function App() {
     setShelves(updatedShelves);
   };
 
+  const handleDeleteShelf = (id) => {
+    const updatedShelves = shelves.filter(shelf => shelf.id !== id);
+    setShelves(updatedShelves);
+  
+    // ถ้าสำคัญ ต้องเช็คว่า shelf ที่ active ถูกลบหรือไม่
+    if (activeShelf === id) {
+      setActiveShelf(updatedShelves.length > 0 ? updatedShelves[0].id : null);
+    }
+  };
+
+  const onFavShelf = (id) => {
+    setFavShelves((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter(shelfId => shelfId !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
+  };
+  
+
 
   return (
     <div>
@@ -68,6 +89,9 @@ function App() {
         onAddShelf={handleAddShelf}
         onRenameShelf={handleRenameShelf}
         startRenaming={startRenaming}
+        onDeleteShelf={handleDeleteShelf}
+        onFavShelf={onFavShelf}        
+        favShelves={favShelves}
       />
       <MainTab
         activeShelfId={activeShelf}
