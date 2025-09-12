@@ -147,7 +147,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                 <option value="series">Series</option>
             </select>
 
-            {/* Title input with suggestions */}
             <div className="title-input-wrapper">
                 <input 
                 type="text" 
@@ -177,7 +176,7 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
             <input type="text" name="volumeNumber" placeholder="Volume Number" value={formData.volumeNumber} onChange={handleChange} />
 
             <div className="form-group">
-                <label>Primary Category *</label>
+                <label>Primary Category</label>
                 <select
                 name="category"
                 value={formData.category}
@@ -191,7 +190,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                 </select>
             </div>
 
-            {/* Genres */}
             <div className="form-group">
                 <label className="genres-text">Genres</label>
                 <div className="genres-buttons">

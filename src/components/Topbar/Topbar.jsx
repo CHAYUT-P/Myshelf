@@ -6,7 +6,7 @@ import FavIcon from '../../assets/icons/star-svgrepo-com (1).svg?react'
 export default function Topbar({ 
     isOpen, 
     toggleOpen ,
-    shelves,   
+    currentShelf,   
     onFavShelf,
     favShelves,
     }){
@@ -18,8 +18,10 @@ export default function Topbar({
                 </button>
                 <div className={`topbar-object ${isOpen ? "open" : "closed"}`}>
                     <div>
-                        <button className="favbutton">
-                            <FavIcon width="1.5em" height="1.5em" className="favIcon"/>
+                        <button className="favbutton"
+                        onClick={() =>onFavShelf(currentShelf)}
+                        >
+                            <FavIcon width="1.5em" height="1.5em"  className={`favIcon ${favShelves.includes(currentShelf) ? "fav" : ""}`}/>
                         </button>
                     </div>
                 </div>

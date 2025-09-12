@@ -80,7 +80,13 @@ function App() {
 
   return (
     <div>
-      <Topbar isOpen={isLeftbarOpen} toggleOpen={toggleLeftbar} />
+      <Topbar 
+        isOpen={isLeftbarOpen} 
+        toggleOpen={toggleLeftbar}
+        currentShelf={activeShelf}        
+        onFavShelf={onFavShelf}   
+        favShelves={favShelves}     
+  />
       <Sidebar
         isOpen={isLeftbarOpen}
         shelves={shelves}
@@ -98,6 +104,7 @@ function App() {
         shelves={shelves}
         onAddBook={handleAddBook}
         isOpen={isLeftbarOpen}
+        onRenameShelf={handleRenameShelf}
       />
     </div>
   );

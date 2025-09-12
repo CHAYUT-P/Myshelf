@@ -11,7 +11,27 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    padding-top: 30px;
 }
+
+.title-input {
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: center;
+  width: 100%;
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px; /* fixed height to prevent jump */
+}
+
+
 
 .main-page {
     display: flex;

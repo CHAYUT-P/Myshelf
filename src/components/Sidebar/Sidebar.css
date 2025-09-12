@@ -36,8 +36,9 @@
 }
 
 .fav-text{
-    color:rgb(81, 81, 81);
+    color:rgba(81, 81, 81,0.9);
     padding-right: 20px ;
+    font-size: 14px;
 }
 
 
@@ -48,8 +49,10 @@
 }
 
 .all-shelves-text{
-    color:rgb(81, 81, 81);
+    color:rgba(81, 81, 81,0.9);
     padding-right: 10px;
+    font-size: 14px;
+
 }
 
 
@@ -96,6 +99,9 @@ fill: rgb(81, 81, 81); /* Icon color */
     cursor: pointer;
     color: rgb(81, 81, 81);
     border-radius: 4px;
+    line-height: 1.4; 
+    box-sizing: border-box; 
+  
 }
 
 .shelf-item:hover {
@@ -127,12 +133,13 @@ fill: rgb(81, 81, 81); /* Icon color */
     border: none;
     font-size: 14px;
     font-weight: bold;
-    display: none;      
+    display: none;    
+    color: rgba(81, 81, 81,1);  
 }
 
 .shelf-item:hover .more-btn,
 .shelf-item.menu-open .more-btn {
-    display: inline; /* show on hover OR if dropdown is open */
+    display: inline; 
 }
 
 .shelf-row{
@@ -194,6 +201,7 @@ fill: rgb(81, 81, 81); /* Icon color */
 }
 
 .favicon.fav{
-    fill:yellow;
+    fill:rgb(234, 189, 27);
+    color:rgb(234, 189, 27);
 }
 
