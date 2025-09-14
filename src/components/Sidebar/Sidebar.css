@@ -27,18 +27,21 @@
 
 .fav-sidebar{
     padding-top: 60px;
-    padding-left: 20px;
 }
 
 .fav-header{
     display: flex;
     align-items: center;
+    padding-left: 20px;
 }
 
 .fav-text{
-    color:rgb(81, 81, 81);
+    color:rgba(81, 81, 81,0.9);
     padding-right: 20px ;
+    font-size: 14px;
 }
+
+
 
 .all-shelves-sidebar{
     padding-top: 60px;
@@ -46,8 +49,10 @@
 }
 
 .all-shelves-text{
-    color:rgb(81, 81, 81);
+    color:rgba(81, 81, 81,0.9);
     padding-right: 10px;
+    font-size: 14px;
+
 }
 
 
@@ -59,18 +64,18 @@
     justify-content: center;
     cursor: pointer; /* Show pointer on hover */
     border-radius: 5px;
-    background-color: #ebebeb;
+    background-color: #f4f4f4;
     transition: background-color 0.2s ease;
   }
   
 .add-btn:hover {
-    background-color: rgb(81, 81, 81); /* Light hover effect */
+    background-color: rgba(0, 0, 0, 0.1); /* Light hover effect */
 }
 
 .add-icon {
-width: 15px;
-height: 15px;
-fill: rgb(81, 81, 81); /* Icon color */
+    width: 15px;
+    height: 15px;
+    color: rgb(81, 81, 81); /* Icon color */
 }
 
 .all-shelves-header{
@@ -94,13 +99,109 @@ fill: rgb(81, 81, 81); /* Icon color */
     cursor: pointer;
     color: rgb(81, 81, 81);
     border-radius: 4px;
+    line-height: 1.4; 
+    box-sizing: border-box; 
+  
 }
 
 .shelf-item:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .shelf-item.active {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
     font-weight: bold;
 }
+
+.shelf-item.active:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.naming-input{
+    background-color: #e7e7e7;
+    border: none;
+    outline: none; 
+    background: transparent;
+    border-radius: 0;
+    width: 90%;
+    margin-left: 18px;
+    font-size: 14px;
+    color:rgba(81, 81, 81,0.4);
+}
+.more-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    display: none;    
+    color: rgba(81, 81, 81,1);  
+}
+
+.shelf-item:hover .more-btn,
+.shelf-item.menu-open .more-btn {
+    display: inline; 
+}
+
+.shelf-row{
+    height: 100%;
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+    position: relative; /* make dropdown absolute inside */
+}
+
+/* Sidebar dropdown as a floating pop-up */
+.dropdown-menu {
+    position: absolute;
+    top: 50%;          /* align vertically to middle of button */
+    right: -12px;     /* adjust based on sidebar width */
+    transform: translateY(-15%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 10005;
+    padding: 12px 0px;
+    /* width: 11vw; */
+    min-width: 170px;
+    display: flex;
+    flex-direction: column;
+
+    
+}
+
+.dropdown-menu button {
+    background-color: #fff;
+    border: none;
+    text-align: left;
+    padding: 5px 10px;
+    cursor: pointer;
+    width: 100%;
+    color:rgb(81, 81, 81);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.trashbutton{
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    padding-right: 5px;
+}
+
+.favicon {
+    padding-right: 5px;
+}
+
+.favicon.fav{
+    fill:rgb(234, 189, 27);
+    color:rgb(234, 189, 27);
+}
+
