@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Maintab.css";
 import AddBook from "./Addbook/Addbook";
 import BookInfo from "./Bookinfo/Bookinfo";
+import BookAddIcon from "../../assets/icons/4243328_ux_book_app_basic_icon.svg?react"
+import RemoveBookIcon from "../../assets/icons/4243329_ux_book_app_basic_icon.svg?react"
+
 
 export default function MainTab({
   activeShelfId,
@@ -83,6 +86,9 @@ export default function MainTab({
                   {book.category || "No category"}
                 </p>
               </div>
+              <div className="hover-btn">
+                <button className="remove-book"><RemoveBookIcon width="24px" height="24px"/></button>
+              </div>
             </li>
           ))}
           <li>
@@ -90,7 +96,7 @@ export default function MainTab({
               onClick={() => setShowAddBookModal(true)}
               className="addbook-button"
             >
-              Add Book
+              <BookAddIcon className="addbookicon"/>
             </button>
 
             <AddBook

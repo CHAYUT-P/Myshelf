@@ -73,9 +73,9 @@
 }
 
 .add-icon {
-width: 15px;
-height: 15px;
-fill: rgb(81, 81, 81); /* Icon color */
+    width: 15px;
+    height: 15px;
+    color: rgb(81, 81, 81); /* Icon color */
 }
 
 .all-shelves-header{
