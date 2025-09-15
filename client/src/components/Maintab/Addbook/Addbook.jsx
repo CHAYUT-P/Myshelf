@@ -130,6 +130,8 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
     onClose();
   }
 
+  
+
   return (
     <div className="modal-backdrop">
         <div className="modal-content">
