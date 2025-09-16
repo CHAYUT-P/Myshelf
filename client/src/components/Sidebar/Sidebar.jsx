@@ -15,7 +15,6 @@ export default function Sidebar({
   onDeleteShelf,
   startRenaming,
   onFavShelf,
-  favShelves,
 }) {
   const [openMenu, setOpenMenu] = useState({ section: null, id: null });
   const sidebarRef = useRef(null);
@@ -46,7 +45,7 @@ export default function Sidebar({
         </div>
         <ul className="shelves-list">
             {shelves
-              .filter(shelf => favShelves.includes(shelf.id))
+              .filter(shelf => shelf.fav)
               .map(shelf => (
                 <li
                   key={shelf.id}
@@ -88,11 +87,11 @@ export default function Sidebar({
                           <button onClick={() => { setOpenMenu({ section: null, id: null }); startRenaming(shelf.id); }}>
                             <RenameIcon width="1.3em" height="1.3em" className="icon" />Rename
                           </button>
-                          <button onClick={() => { setOpenMenu({ section: null, id: null }); handleDeleteShelf(shelf.id); }}>
+                          <button onClick={() => { setOpenMenu({ section: null, id: null }); onDeleteShelf(shelf.id); }}>
                             <TrashIcon width="1.3em" height="1.3em" className="icon" />Move to Trash
                           </button>
                           <button onClick={() => { setOpenMenu({ section: null, id: null }); onFavShelf(shelf.id); }}>
-                            <FavouriteIcon width="1.3em" height="1.3em" className={`favicon ${favShelves.includes(shelf.id) ? "fav" : ""}`} />Favourite
+                            <FavouriteIcon width="1.3em" height="1.3em" className={`favicon ${shelf.fav ? "fav" : ""}`} />Favourite
                           </button>
                         </div>
                       )}
@@ -161,7 +160,7 @@ export default function Sidebar({
                         <TrashIcon width="1.3em" height="1.3em" className="icon" />Move to Trash
                       </button>
                       <button onClick={() =>onFavShelf(shelf.id)}>
-                        <FavouriteIcon width="1.3em" height="1.3em" className={`favicon ${favShelves.includes(shelf.id) ? "fav" : ""}`} />Favourite
+                        <FavouriteIcon width="1.3em" height="1.3em" className={`favicon ${shelf.fav ? "fav" : ""}`} />Favourite
                       </button>
                     </div>
                   )}

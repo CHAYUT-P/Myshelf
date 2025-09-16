@@ -7,11 +7,10 @@ import MainTab from "./components/Maintab/Maintab";
 function App() {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);
   const [shelves, setShelves] = useState([
-    { id: 1, name: "Shelf 1", isNaming: false, books: [] }
+    { id: 1, name: "Shelf 1", isNaming: false, books: [] , fav: false}
   ]);
   const [activeShelf, setActiveShelf] = useState(1);
-  const [favShelves, setFavShelves] = useState([])
-  // Toggle sidebar
+
   const toggleLeftbar = () => {
     setIsLeftbarOpen(!isLeftbarOpen);
   };
@@ -67,13 +66,11 @@ function App() {
   };
 
   const onFavShelf = (id) => {
-    setFavShelves((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter(shelfId => shelfId !== id);
-      } else {
-        return [...prev, id];
-      }
-    });
+    const updatedShelves = shelves.map((shelf) =>
+      shelf.id === id ? { ...shelf, fav:!shelf.fav} : shelf
+    );  
+    setShelves(updatedShelves);
+    console.log(shelves)
   };
   
 
@@ -84,8 +81,8 @@ function App() {
         isOpen={isLeftbarOpen} 
         toggleOpen={toggleLeftbar}
         currentShelf={activeShelf}        
-        onFavShelf={onFavShelf}   
-        favShelves={favShelves}     
+        onFavShelf={onFavShelf}  
+        shelves={shelves} 
   />
       <Sidebar
         isOpen={isLeftbarOpen}
@@ -97,7 +94,6 @@ function App() {
         startRenaming={startRenaming}
         onDeleteShelf={handleDeleteShelf}
         onFavShelf={onFavShelf}        
-        favShelves={favShelves}
       />
       <MainTab
         activeShelfId={activeShelf}

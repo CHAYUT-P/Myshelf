@@ -8,8 +8,11 @@ export default function Topbar({
     toggleOpen ,
     currentShelf,   
     onFavShelf,
-    favShelves,
+    shelves,
     }){
+
+    const shelf = shelves.find(s => s.id === currentShelf);
+
     return (
         <>
             <div className="topbar">
@@ -21,7 +24,7 @@ export default function Topbar({
                         <button className="favbutton"
                         onClick={() =>onFavShelf(currentShelf)}
                         >
-                            <FavIcon width="1.5em" height="1.5em"  className={`favIcon ${favShelves.includes(currentShelf) ? "fav" : ""}`}/>
+                            <FavIcon width="1.5em" height="1.5em"  className={`favIcon ${shelf.fav ? "fav" : ""}`}/>
                         </button>
                     </div>
                 </div>

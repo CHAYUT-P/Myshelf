@@ -110,8 +110,11 @@
   transition: opacity 0.2s;
   border-radius: 5px;
   padding: 5px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
+  
 .book-item:hover .remove-book {
   opacity: 1;
 }
