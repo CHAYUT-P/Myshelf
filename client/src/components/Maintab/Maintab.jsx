@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Maintab.css";
 import AddBook from "./Addbook/Addbook";
 import BookInfo from "./Bookinfo/Bookinfo";
-import BookAddIcon from "../../assets/icons/4243328_ux_book_app_basic_icon.svg?react"
-import RemoveBookIcon from "../../assets/icons/4243329_ux_book_app_basic_icon.svg?react"
-
+import BookAddIcon from "../../assets/icons/4243328_ux_book_app_basic_icon.svg?react";
+import RemoveBookIcon from "../../assets/icons/4243329_ux_book_app_basic_icon.svg?react";
 
 export default function MainTab({
   activeShelfId,
@@ -72,9 +71,12 @@ export default function MainTab({
               <div
                 className="book-cover"
                 style={{
-                  backgroundColor: book.coverImage ? "transparent" : "#ccc",
-                  backgroundImage: book.coverImage
-                    ? `url(${book.coverImage})`
+                  backgroundColor:
+                    book.localCover || book.coverImage ? "transparent" : "#ccc",
+                  backgroundImage: book.localCover
+                    ? `url(${URL.createObjectURL(book.localCover)})` // ใช้ไฟล์ที่เราอัปโหลด
+                    : book.coverImage
+                    ? `url(${book.coverImage})` // ถ้าไม่มีไฟล์ก็ใช้จาก API
                     : "none",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
@@ -87,7 +89,9 @@ export default function MainTab({
                 </p>
               </div>
               <div className="hover-btn">
-                <button className="remove-book"><RemoveBookIcon width="24px" height="24px"/></button>
+                <button className="remove-book">
+                  <RemoveBookIcon width="24px" height="24px" />
+                </button>
               </div>
             </li>
           ))}
@@ -96,7 +100,7 @@ export default function MainTab({
               onClick={() => setShowAddBookModal(true)}
               className="addbook-button"
             >
-              <BookAddIcon className="addbookicon"/>
+              <BookAddIcon className="addbookicon" />
             </button>
 
             <AddBook

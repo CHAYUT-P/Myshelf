@@ -51,10 +51,10 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === "file") {
-      setFormData({ ...formData, [name]: files[0] });
+      setFormData({ ...formData, localCover: files[0] });
     } else {
       setFormData({ ...formData, [name]: value });
-
+  
       if (name === "title") {
         fetchBookSuggestions(value);
       }
@@ -86,14 +86,10 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
       genres: info.categories || [],
       synopsis: info.description || '',
       coverImage: info.imageLinks?.thumbnail || null,
-      seriesName: '',
-      seriesDescription: '',
-      seriesCover: null,
-      volumeNumber: '',
+      localCover: null,
       category: '',
       tags: [],
       status: ''
-
     });
     setSuggestions([]);
   };
