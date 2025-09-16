@@ -134,11 +134,11 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
     <div className="modal-backdrop">
         <div className="modal-content">
             <div className="modal-title-bar">
-            <span></span>
-            <button className="close-button" onClick={() => {
-                        setDataOnClose(); 
-                        onClose();
-                    }}>×</button>
+              <span></span>
+              <button className="close-button" onClick={() => {
+                          setDataOnClose(); 
+                          onClose();
+                      }}>×</button>
             </div>
 
             <div className="modal-body">
@@ -148,6 +148,7 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
             </select>
 
             <div className="title-input-wrapper">
+                <input type="file" name="seriesCover" onChange={handleChange} />
                 <input 
                 type="text" 
                 name="title" 
@@ -172,7 +173,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
             <input type="text" name="language" placeholder="Language" value={formData.language} onChange={handleChange} />
             <input type="text" name="seriesName" placeholder="Series Name" value={formData.seriesName} onChange={handleChange} />
             <textarea name="seriesDescription" placeholder="Series Description" value={formData.seriesDescription} onChange={handleChange} />
-            <input type="file" name="seriesCover" onChange={handleChange} />
             <input type="text" name="volumeNumber" placeholder="Volume Number" value={formData.volumeNumber} onChange={handleChange} />
 
             <div className="form-group">
@@ -206,7 +206,7 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                 </div>
             </div>
 
-            <textarea name="synopsis" placeholder="Synopsis" value={formData.synopsis} onChange={handleChange} />
+            <textarea className="synopsis" name="synopsis" placeholder="Synopsis" value={formData.synopsis} onChange={handleChange} />
             <input type="file" name="coverImage" onChange={handleChange} />
             <textarea 
                 name="tags" 

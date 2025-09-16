@@ -13,8 +13,8 @@
   
   .modal-content {
     background-color: #fff;
-    border-radius: 8px;
-    width: 50vw;
+    border-radius: 10px;
+    width: 60vw;
     height: 90vh;
     max-height: 80vh;
     overflow-y: auto;
@@ -23,7 +23,7 @@
     flex-direction: column;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     position: relative;
-    z-index: 10000; /* above backdrop */
+    z-index: 10000;
   }
   
   .modal-title-bar {
@@ -35,6 +35,9 @@
     width: 100%;
     font-weight: bold;
     border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1;
   }
   
   .close-button {
@@ -45,6 +48,7 @@
   }
   
   .modal-body {
+    margin-top: 0px;
     padding:20px 0px;
     justify-content: center;
     display: flex;
@@ -65,6 +69,15 @@
     font-size: 14px;
 
   }
+
+  .modal-body textarea {
+    height: 100px;
+  }
+
+  .modal-body select {
+    padding: 5px 0px;
+  }
+
   
   .modal-buttons {
     display: flex;
