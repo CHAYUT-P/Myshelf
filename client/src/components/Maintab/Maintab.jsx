@@ -88,11 +88,6 @@ export default function MainTab({
                   {book.category || "No category"}
                 </p>
               </div>
-              <div className="hover-btn">
-                <button className="remove-book">
-                  <RemoveBookIcon width="24px" height="24px" />
-                </button>
-              </div>
             </li>
           ))}
           <li>
