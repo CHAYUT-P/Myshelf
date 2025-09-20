@@ -66,7 +66,7 @@ export default function MainTab({
             <li
               key={book.id}
               className="book-item"
-              onDoubleClick={() => setShowBookInfo(true)}
+              onClick={() => setShowBookInfo(true)}
             >
               <div
                 className="book-cover"

@@ -10,7 +10,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
     pages: "",
     currentPage: "", // progress tracking
     publisher: "",
-    isbn: "",
     publicationDate: "",
     edition: "",
     seriesName: "",
@@ -126,7 +125,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
       pages: info.pageCount || "",
       language: info.language || "English",
       publisher: info.publisher || "",
-      isbn: info.industryIdentifiers?.[0]?.identifier || "",
       publicationDate: info.publishedDate || "",
       edition: "",
       genres: info.categories || [],
@@ -173,7 +171,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
       pages: "",
       currentPage: "",
       publisher: "",
-      isbn: "",
       publicationDate: "",
       edition: "",
       seriesName: "",
@@ -206,7 +203,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
       pages: "",
       currentPage: "",
       publisher: "",
-      isbn: "",
       publicationDate: "",
       edition: "",
       seriesName: "",
@@ -352,10 +348,12 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                   onChange={handleChange}
                 />
                 <input
-                  type="text"
-                  name="isbn"
-                  placeholder="ISBN"
-                  value={formData.isbn}
+                  type="number"
+                  name="rating"
+                  placeholder="Rating (1-10)"
+                  min="1"
+                  max="10"
+                  value={formData.rating}
                   onChange={handleChange}
                 />
                 <input

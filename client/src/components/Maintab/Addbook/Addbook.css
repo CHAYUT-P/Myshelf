@@ -196,7 +196,7 @@
 .book-type input[type="radio"]:checked + label {
   background: #515151;
   color: #fff;
-  border-color: #6b5bff;
+  border-color: #515151;
   font-weight: bold;
 }
 
