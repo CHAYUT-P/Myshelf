@@ -18,21 +18,26 @@ export default function MainTab({
   const [shelfName, setShelfName] = useState("");
 
   const activeShelf = shelves.find((shelf) => shelf.id === activeShelfId);
-  if (!activeShelf) return <p>No shelf selected</p>;
 
   useEffect(() => {
-    if (!isEditingName) setShelfName(activeShelf.name);
-  }, [activeShelf.name, isEditingName]);
+    if (activeShelf && !isEditingName) {
+      setShelfName(activeShelf.name);
+    }
+  }, [activeShelf?.name, isEditingName]);
 
   const handleSave = () => {
     setIsEditingName(false);
     const trimmedName = shelfName.trim();
-    if (trimmedName && trimmedName !== activeShelf.name && onRenameShelf) {
+    if (activeShelf && trimmedName && trimmedName !== activeShelf.name && onRenameShelf) {
       onRenameShelf(activeShelf.id, trimmedName);
-    } else {
+    } else if (activeShelf) {
       setShelfName(activeShelf.name); // revert if empty
     }
   };
+
+  if (!activeShelf) {
+    return <p>No shelf selected</p>;
+  }
 
   return (
     <div className={`main-tab ${isOpen ? "open" : ""}`}>
@@ -74,9 +79,9 @@ export default function MainTab({
                   backgroundColor:
                     book.localCover || book.coverImage ? "transparent" : "#ccc",
                   backgroundImage: book.localCover
-                    ? `url(${URL.createObjectURL(book.localCover)})` // ใช้ไฟล์ที่เราอัปโหลด
+                    ? `url(${URL.createObjectURL(book.localCover)})`
                     : book.coverImage
-                    ? `url(${book.coverImage})` // ถ้าไม่มีไฟล์ก็ใช้จาก API
+                    ? `url(${book.coverImage})`
                     : "none",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
@@ -84,9 +89,7 @@ export default function MainTab({
               ></div>
               <div className="book-info">
                 <p className="book-name">{book.title}</p>
-                <p className="book-category">
-                  {book.category || "No category"}
-                </p>
+                <p className="book-category">{book.category || "No category"}</p>
               </div>
             </li>
           ))}
@@ -95,7 +98,7 @@ export default function MainTab({
               onClick={() => setShowAddBookModal(true)}
               className="addbook-button"
             >
-              <BookAddIcon className="addbookicon" />
+              Add Book
             </button>
 
             <AddBook

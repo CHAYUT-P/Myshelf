@@ -56,7 +56,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
     "Young Adult",
     "Education",
   ];
-
   const genresList = [
     "Adventure",
     "Action",
@@ -76,6 +75,47 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
     "Western",
     "Young Adult",
     "Children",
+    "Biography",
+    "Autobiography",
+    "Memoir",
+    "Self-Help",
+    "Health & Wellness",
+    "Travel",
+    "Cooking / Food",
+    "Art & Design",
+    "Poetry",
+    "Drama / Play",
+    "Religion / Spirituality",
+    "Philosophy",
+    "Education",
+    "Business / Economics",
+    "Technology",
+    "Science",
+    "Nature / Environment",
+    "History",
+    "True Crime",
+    "Anthology",
+    "Classic Literature",
+    "Dystopian",
+    "Magical Realism",
+    "Paranormal",
+    "Urban Fantasy",
+    "Mythology",
+    "Fairy Tale Retelling",
+    "Steampunk",
+    "Cyberpunk",
+    "Post-Apocalyptic",
+    "Epic Fantasy",
+    "High Fantasy",
+    "Dark Fantasy",
+    "Contemporary",
+    "Slice of Life",
+    "LGBTQ+",
+    "Sports",
+    "War / Military",
+    "Espionage",
+    "Legal",
+    "Medical",
   ];
 
   const [suggestions, setSuggestions] = useState([]);
@@ -441,14 +481,50 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                 value={formData.seriesDescription}
                 onChange={handleChange}
               />
+              <div className="form-group">
+                <label>Primary Category</label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="genres-text">Genres</label>
+                <div className="genres-buttons">
+                  {genresList.map((genre) => (
+                    <button
+                      key={genre}
+                      type="button"
+                      className={
+                        formData.genres.includes(genre)
+                          ? "genre-btn active"
+                          : "genre-btn"
+                      }
+                      onClick={() => toggleGenre(genre)}
+                    >
+                      {genre}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>
 
-          <div className="modal-buttons">
-            <button onClick={handleAdd}>Add</button>
-            <button onClick={setDataOnClose}>Cancel</button>
-          </div>
+        <div className="modal-buttons">
+          <button onClick={handleAdd}>Add</button>
+          <button onClick={setDataOnClose}>Cancel</button>
+        </div>
       </div>
     </div>
   );

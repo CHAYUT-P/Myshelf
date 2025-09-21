@@ -11,7 +11,7 @@ export default function Topbar({
     shelves,
     }){
 
-    const shelf = shelves.find(s => s.id === currentShelf);
+    const shelf = shelves.find(s => s.id === currentShelf) || null;
 
     return (
         <>
@@ -20,13 +20,15 @@ export default function Topbar({
                     <SidebarIcon style={{ width: 24, height: 24, fill: "rgb(81, 81, 81)" }} />
                 </button>
                 <div className={`topbar-object ${isOpen ? "open" : "closed"}`}>
+                    {shelf && 
                     <div>
                         <button className="favbutton"
                         onClick={() =>onFavShelf(currentShelf)}
                         >
                             <FavIcon width="1.5em" height="1.5em"  className={`favIcon ${shelf.fav ? "fav" : ""}`}/>
                         </button>
-                    </div>
+                    </div>}
+                    
                 </div>
             </div>
         </>
