@@ -191,8 +191,7 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
   };
 
   const handleAdd = () => {
-    if (!formData.title.trim()) return;
-
+    
     const preparedData = {
       ...formData,
       coverImage:
@@ -263,6 +262,14 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
     });
     onClose();
   };
+
+  formData.progress =
+  formData.currentPage == 0
+    ? 0
+    : Math.min(
+        100,
+        Math.round((formData.currentPage / formData.pages) * 100)
+      );
 
   return (
     <div className="modal-backdrop">
@@ -374,6 +381,13 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                   onChange={handleChange}
                 />
                 <input
+                  type="number"
+                  name="currentPage"
+                  placeholder="Current Page"
+                  value={formData.currentPage}
+                  onChange={handleChange}
+                />
+                <input
                   type="text"
                   name="language"
                   placeholder="Language"
@@ -410,6 +424,50 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                   value={formData.volumeNumber}
                   onChange={handleChange}
                 />
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Status</option>
+                  <option value="reading">Reading</option>
+                  <option value="completed">Completed</option>
+                  <option value="dropped">Dropped</option>
+                  <option value="plan">Plan to Read</option>
+                </select>
+                <div className="form-group">
+                  <label htmlFor="startDate">Start Date</label>
+                  <input
+                    id="startDate"
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="endDate">End Date</label>
+                  <input
+                    id="endDate"
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label htmlFor="progress">Progress</label>
+                <div className="progress-container">
+                  <div
+                    className="progress-bar"
+                    style={{ width: `${formData.progress || 0}%` }}
+                  ><label>
+                    {formData.progress ? `${formData.progress}%` : "0%"}
+                    </label>
+                  </div>
+                </div>
               </div>
 
               <div className="form-group">
@@ -481,6 +539,64 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                 value={formData.seriesDescription}
                 onChange={handleChange}
               />
+            
+              <div className="book-metadata">
+                <input
+                  type="text"
+                  name="language"
+                  placeholder="Language"
+                  value={formData.language}
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  name="publisher"
+                  placeholder="Publisher"
+                  value={formData.publisher}
+                  onChange={handleChange}
+                />
+                <input
+                  type="number"
+                  name="rating"
+                  placeholder="Rating (1-10)"
+                  min="1"
+                  max="10"
+                  value={formData.rating}
+                  onChange={handleChange}
+                />
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Status</option>
+                  <option value="reading">Reading</option>
+                  <option value="completed">Completed</option>
+                  <option value="dropped">Dropped</option>
+                  <option value="plan">Plan to Read</option>
+                </select>
+                <div className="form-group">
+                  <label htmlFor="startDate">Start Date</label>
+                  <input
+                    id="startDate"
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="endDate">End Date</label>
+                  <input
+                    id="endDate"
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
               <div className="form-group">
                 <label>Primary Category</label>
                 <select

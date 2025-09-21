@@ -1,26 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Bookinfo.css";
+import SingleBook from "./Singlebook/Singlebook";
 
 export default function BookInfo({
+  isOpen,
+  onClose,
+  selectedBookId,
+  shelves,
   activeShelfId,
-  shelves, 
-  isOpen, 
-  onClose
 }) {
-  
   if (!isOpen) return null;
+
+  const shelf = shelves.find((s) => s.id === activeShelfId);
+  const book = shelf?.books.find((b) => b.id === selectedBookId);
 
   return (
     <div className="modal-backdrop">
       <div className="modal-content">
-            <div className="modal-title-bar">
-            <span></span>
-            <button className="close-button" onClick={onClose}>
-              ×
-            </button>
-          </div>
+        <div className="modal-title-bar">
+          <span></span>
+          <button className="close-button" onClick={onClose}>
+            ×
+          </button>
+        </div>
+        {book?.bookType === "single" && (
+          <SingleBook book={book} />
+        )}
       </div>
     </div>
-
   );
 }

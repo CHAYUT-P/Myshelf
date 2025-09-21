@@ -15,8 +15,8 @@
     background-color: #fff;
     border-radius: 10px;
     width: 60vw;
+    max-height: 90vh;
     height: 90vh;
-    max-height: 80vh;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;

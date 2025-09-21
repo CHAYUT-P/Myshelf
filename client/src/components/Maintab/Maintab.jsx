@@ -12,6 +12,7 @@ export default function MainTab({
   isOpen,
   onRenameShelf,
 }) {
+  const [selectedBookId, setSelectedBookId] = useState(null);
   const [showAddBookModal, setShowAddBookModal] = useState(false);
   const [showBookInfo, setShowBookInfo] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -28,10 +29,15 @@ export default function MainTab({
   const handleSave = () => {
     setIsEditingName(false);
     const trimmedName = shelfName.trim();
-    if (activeShelf && trimmedName && trimmedName !== activeShelf.name && onRenameShelf) {
+    if (
+      activeShelf &&
+      trimmedName &&
+      trimmedName !== activeShelf.name &&
+      onRenameShelf
+    ) {
       onRenameShelf(activeShelf.id, trimmedName);
     } else if (activeShelf) {
-      setShelfName(activeShelf.name); // revert if empty
+      setShelfName(activeShelf.name);
     }
   };
 
@@ -71,7 +77,10 @@ export default function MainTab({
             <li
               key={book.id}
               className="book-item"
-              onClick={() => setShowBookInfo(true)}
+              onClick={() => {
+                setSelectedBookId(book.id);
+                setShowBookInfo(true);
+              }}
             >
               <div
                 className="book-cover"
@@ -88,8 +97,19 @@ export default function MainTab({
                 }}
               ></div>
               <div className="book-info">
-                <p className="book-name">{book.title}</p>
-                <p className="book-category">{book.category || "No category"}</p>
+                {book.bookType === "single" ? (
+                  <>
+                    <p className="book-name">{book.title}</p>
+                    <p className="book-category">
+                      {book.category || "No category"}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="book-name">{book.seriesName}</p>
+                    <p className="book-category">Series</p>
+                  </>
+                )}
               </div>
             </li>
           ))}
@@ -110,6 +130,9 @@ export default function MainTab({
             <BookInfo
               isOpen={showBookInfo}
               onClose={() => setShowBookInfo(false)}
+              selectedBookId={selectedBookId}
+              shelves={shelves}
+              activeShelfId={activeShelf.id}
             />
           </li>
         </ul>
