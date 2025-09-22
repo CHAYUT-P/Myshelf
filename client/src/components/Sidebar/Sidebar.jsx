@@ -37,6 +37,7 @@ export default function Sidebar({
     <div
       ref={sidebarRef}
       className={`sidebar ${isOpen ? "show" : "hide"}`}
+      onClick={() => setOpenMenu({ section: null, id: null })}
     >
       {/* Favourite Section */}
       <div className="fav-sidebar">

@@ -4,6 +4,7 @@ import AddBook from "./Addbook/Addbook";
 import BookInfo from "./Bookinfo/Bookinfo";
 import BookAddIcon from "../../assets/icons/4243328_ux_book_app_basic_icon.svg?react";
 import RemoveBookIcon from "../../assets/icons/4243329_ux_book_app_basic_icon.svg?react";
+import BookStatusDropdown from "../../components/Bookstatusdropdown/BookStatusDropdown";
 
 export default function MainTab({
   activeShelfId,
@@ -11,28 +12,40 @@ export default function MainTab({
   onAddBook,
   isOpen,
   onRenameShelf,
+  handleUpdateBook,
 }) {
+  const [selectedBookId, setSelectedBookId] = useState(null);
   const [showAddBookModal, setShowAddBookModal] = useState(false);
   const [showBookInfo, setShowBookInfo] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [shelfName, setShelfName] = useState("");
 
   const activeShelf = shelves.find((shelf) => shelf.id === activeShelfId);
-  if (!activeShelf) return <p>No shelf selected</p>;
 
   useEffect(() => {
-    if (!isEditingName) setShelfName(activeShelf.name);
-  }, [activeShelf.name, isEditingName]);
+    if (activeShelf && !isEditingName) {
+      setShelfName(activeShelf.name);
+    }
+  }, [activeShelf?.name, isEditingName]);
 
   const handleSave = () => {
     setIsEditingName(false);
     const trimmedName = shelfName.trim();
-    if (trimmedName && trimmedName !== activeShelf.name && onRenameShelf) {
+    if (
+      activeShelf &&
+      trimmedName &&
+      trimmedName !== activeShelf.name &&
+      onRenameShelf
+    ) {
       onRenameShelf(activeShelf.id, trimmedName);
-    } else {
-      setShelfName(activeShelf.name); // revert if empty
+    } else if (activeShelf) {
+      setShelfName(activeShelf.name);
     }
   };
+
+  if (!activeShelf) {
+    return <p>No shelf selected</p>;
+  }
 
   return (
     <div className={`main-tab ${isOpen ? "open" : ""}`}>
@@ -66,7 +79,10 @@ export default function MainTab({
             <li
               key={book.id}
               className="book-item"
-              onDoubleClick={() => setShowBookInfo(true)}
+              onClick={() => {
+                setSelectedBookId(book.id);
+                setShowBookInfo(true);
+              }}
             >
               <div
                 className="book-cover"
@@ -74,24 +90,48 @@ export default function MainTab({
                   backgroundColor:
                     book.localCover || book.coverImage ? "transparent" : "#ccc",
                   backgroundImage: book.localCover
-                    ? `url(${URL.createObjectURL(book.localCover)})` // ใช้ไฟล์ที่เราอัปโหลด
+                    ? `url(${URL.createObjectURL(book.localCover)})`
                     : book.coverImage
-                    ? `url(${book.coverImage})` // ถ้าไม่มีไฟล์ก็ใช้จาก API
+                    ? `url(${book.coverImage})`
                     : "none",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
               ></div>
               <div className="book-info">
-                <p className="book-name">{book.title}</p>
-                <p className="book-category">
-                  {book.category || "No category"}
-                </p>
-              </div>
-              <div className="hover-btn">
-                <button className="remove-book">
-                  <RemoveBookIcon width="24px" height="24px" />
-                </button>
+                {book.bookType === "single" ? (
+                  <>
+                    <p className="book-name">{book.title}</p>
+                    <p className="book-category">
+                      {book.category || "No category"}
+                    </p>
+                    <BookStatusDropdown
+                      value={book.status || "not-started"}
+                      onChange={async (newStatus) => {
+                        try {
+                          const res = await fetch(
+                            `http://localhost:4000/shelves/${activeShelf.id}/books/${book.id}`,
+                            {
+                              method: "PUT",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ status: newStatus }),
+                            }
+                          );
+
+                          const data = await res.json();
+                          handleUpdateBook(activeShelf.id, data.book);
+                        } catch (err) {
+                          console.error("❌ Failed to update book:", err);
+                        }
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <p className="book-name">{book.seriesName}</p>
+                    <p className="book-category">Series</p>
+                  </>
+                )}
               </div>
             </li>
           ))}
@@ -100,7 +140,7 @@ export default function MainTab({
               onClick={() => setShowAddBookModal(true)}
               className="addbook-button"
             >
-              <BookAddIcon className="addbookicon" />
+              Add Book
             </button>
 
             <AddBook
@@ -112,6 +152,9 @@ export default function MainTab({
             <BookInfo
               isOpen={showBookInfo}
               onClose={() => setShowBookInfo(false)}
+              selectedBookId={selectedBookId}
+              shelves={shelves}
+              activeShelfId={activeShelf.id}
             />
           </li>
         </ul>
