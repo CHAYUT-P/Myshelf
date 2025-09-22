@@ -31,6 +31,21 @@ function App() {
     console.log(shelves);
   };
 
+  const handleUpdateBook = (shelfId, updatedBook) => {
+    setShelves((prev) =>
+      prev.map((shelf) =>
+        shelf.id === shelfId
+          ? {
+              ...shelf,
+              books: shelf.books.map((b) =>
+                b.id === updatedBook.id ? updatedBook : b
+              ),
+            }
+          : shelf
+      )
+    );
+  };
+
   // Add a new shelf
   const handleAddShelf = async () => {
     const newId = shelves.length > 0 ? shelves[shelves.length - 1].id + 1 : 1;
@@ -152,6 +167,7 @@ function App() {
         onAddBook={handleAddBook}
         isOpen={isLeftbarOpen}
         onRenameShelf={handleRenameShelf}
+        handleUpdateBook={handleUpdateBook}
       />
     </div>
   );

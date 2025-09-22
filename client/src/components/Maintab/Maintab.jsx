@@ -4,6 +4,7 @@ import AddBook from "./Addbook/Addbook";
 import BookInfo from "./Bookinfo/Bookinfo";
 import BookAddIcon from "../../assets/icons/4243328_ux_book_app_basic_icon.svg?react";
 import RemoveBookIcon from "../../assets/icons/4243329_ux_book_app_basic_icon.svg?react";
+import BookStatusDropdown from "../../components/Bookstatusdropdown/BookStatusDropdown";
 
 export default function MainTab({
   activeShelfId,
@@ -11,6 +12,7 @@ export default function MainTab({
   onAddBook,
   isOpen,
   onRenameShelf,
+  handleUpdateBook,
 }) {
   const [selectedBookId, setSelectedBookId] = useState(null);
   const [showAddBookModal, setShowAddBookModal] = useState(false);
@@ -103,6 +105,26 @@ export default function MainTab({
                     <p className="book-category">
                       {book.category || "No category"}
                     </p>
+                    <BookStatusDropdown
+                      value={book.status || "not-started"}
+                      onChange={async (newStatus) => {
+                        try {
+                          const res = await fetch(
+                            `http://localhost:4000/shelves/${activeShelf.id}/books/${book.id}`,
+                            {
+                              method: "PUT",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ status: newStatus }),
+                            }
+                          );
+
+                          const data = await res.json();
+                          handleUpdateBook(activeShelf.id, data.book);
+                        } catch (err) {
+                          console.error("❌ Failed to update book:", err);
+                        }
+                      }}
+                    />
                   </>
                 ) : (
                   <>

@@ -86,6 +86,9 @@
 
 .book-info {
   text-align: center;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
 }
 
 .book-name {

@@ -50,6 +50,38 @@ app.post("/shelves/:id/books", async (req, res) =>{
   res.json({ book: newbook })
 })
 
+// GET book by shelfId + bookId
+app.get("/shelves/:shelfId/books/:bookId", (req, res) => {
+  const shelfId = parseInt(req.params.shelfId);
+  const bookId = parseInt(req.params.bookId);
+
+  const shelf = shelves.find((s) => s.id === shelfId);
+  if (!shelf) {
+    return res.status(404).json({ message: "Shelf not found" });
+  }
+
+  const book = shelf.books.find((b) => b.id === bookId);
+  if (!book) {
+    return res.status(404).json({ message: "Book not found" });
+  }
+
+  res.json(book);
+});
+
+app.put("/shelves/:shelfId/books/:bookId", (req, res) => {
+  const shelfId = parseInt(req.params.shelfId);
+  const bookId = parseInt(req.params.bookId);
+
+  const shelf = shelves.find((s) => s.id === shelfId);
+  if (!shelf) return res.status(404).json({ message: "Shelf not found" });
+
+  const book = shelf.books.find((b) => b.id === bookId);
+  if (!book) return res.status(404).json({ message: "Book not found" });
+
+  Object.assign(book, req.body);
+  res.json({book});
+});
+
 app.listen(PORT, () => {
 console.log(`✅ Server running at http://localhost:${PORT}`);
 });
