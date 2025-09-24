@@ -167,14 +167,14 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
       publisher: info.publisher || "",
       publicationDate: info.publishedDate || "",
       edition: "",
-      genres: info.categories || [],
+      genres: "",
       synopsis: info.description || "",
       coverImage: info.imageLinks?.thumbnail || null,
       seriesName: "",
       seriesDescription: "",
       seriesCover: null,
       volumeNumber: "",
-      category: "",
+      category: info.categories || [],
       tags: [],
       status: "",
     });
@@ -191,7 +191,6 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
   };
 
   const handleAdd = () => {
-    
     const preparedData = {
       ...formData,
       coverImage:
@@ -264,12 +263,12 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
   };
 
   formData.progress =
-  formData.currentPage == 0
-    ? 0
-    : Math.min(
-        100,
-        Math.round((formData.currentPage / formData.pages) * 100)
-      );
+    formData.currentPage == 0
+      ? 0
+      : Math.min(
+          100,
+          Math.round((formData.currentPage / formData.pages) * 100)
+        );
 
   return (
     <div className="modal-backdrop">
@@ -372,6 +371,17 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                 onChange={handleChange}
               />
 
+              <div className="form-group">
+                <label htmlFor="endDate">Publication Data</label>
+                <input
+                  type="date"
+                  name="publicationDate"
+                  placeholder="Publication Date"
+                  value={formData.publicationDate}
+                  onChange={handleChange}
+                />
+              </div>
+
               <div className="book-metadata">
                 <input
                   type="number"
@@ -463,8 +473,9 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                   <div
                     className="progress-bar"
                     style={{ width: `${formData.progress || 0}%` }}
-                  ><label>
-                    {formData.progress ? `${formData.progress}%` : "0%"}
+                  >
+                    <label>
+                      {formData.progress ? `${formData.progress}%` : "0%"}
                     </label>
                   </div>
                 </div>
@@ -539,7 +550,7 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                 value={formData.seriesDescription}
                 onChange={handleChange}
               />
-            
+
               <div className="book-metadata">
                 <input
                   type="text"

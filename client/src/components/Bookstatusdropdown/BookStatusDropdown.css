@@ -1,14 +1,15 @@
 .status-dropdown {
   position: relative;
   width: 100%;
-  max-width: 350px;
+  max-width: 130px;
+  max-height: 30px;  
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
 }
 
 .status-dropdown-button {
-  padding: 12px;
+  padding: 2px 4px;
   border: 2px solid #ccc;
   border-radius: 20px;
   background: white;
@@ -17,6 +18,8 @@
   justify-content: space-between;
   align-items: center;
   transition: border 0.2s, box-shadow 0.2s;
+  max-width: 130px;
+  max-height: 30px;
 }
 
 .status-dropdown-button:hover {
@@ -24,7 +27,7 @@
 }
 
 .status-dropdown-button.open {
-  border-color: #3b82f6;
+  border-color: #515151;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -36,8 +39,8 @@
 }
 
 .status-icon {
-  width: 20px;
-  height: 20px;
+  width: 8px;
+  height: 8px;
 }
 
 .status-texts {
@@ -50,6 +53,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 11px;
 }
 
 .status-description {
@@ -85,7 +89,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   background: white;
   border: none;
   text-align: left;
