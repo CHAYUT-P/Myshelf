@@ -63,11 +63,21 @@
 }
 
 .modal-body input,
-.modal-body select,
-.modal-body textarea {
+.modal-body select {
   width: 100%;
   padding: 10px 0px;
   text-indent: 10px;
+  border-radius: 4px;
+  border: solid 1px #ddd;
+  outline: none;
+  font-size: 14px;
+}
+
+.modal-body textarea {
+  min-height: 150px;
+  resize: vertical;
+  width: 100%;
+  padding: 5px 5px;
   border-radius: 4px;
   border: solid 1px #ddd;
   outline: none;
@@ -99,7 +109,7 @@
   border: solid 1px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2;
+  transition: background-color 0.2s , color 0.2s;
 }
 
 .modal-buttons button:last-child {
@@ -107,7 +117,8 @@
 }
 
 .modal-buttons button:hover {
-  background-color: rgb(0, 0, 0, 0.1);
+  color: #f5f5f5;
+  background-color: rgb(81, 81, 81);
 }
 
 .suggestions-list {

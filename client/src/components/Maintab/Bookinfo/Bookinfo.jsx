@@ -16,7 +16,7 @@ export default function BookInfo({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-content">
+      <div className="modal-content-bookdetail">
         <div className="modal-title-bar">
           <span></span>
           <button className="close-button" onClick={onClose}>
@@ -24,8 +24,13 @@ export default function BookInfo({
           </button>
         </div>
         {book?.bookType === "single" && (
-          <SingleBook book={book} />
+          <SingleBook  book={book} />
         )}
+        <div className="modal-btn">
+          <button>Remove</button>
+          <button>Save</button>
+          <button>Cancel</button>
+        </div>
       </div>
     </div>
   );
