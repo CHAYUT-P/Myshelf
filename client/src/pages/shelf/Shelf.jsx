@@ -8,9 +8,26 @@ function Shelf() {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);
   const [shelves, setShelves] = useState([]);
   const [activeShelf, setActiveShelf] = useState(1);
+  const [allccount,setAllAccount] = useState([])
+  const [activeAccount,setActiveAccount] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:4000/shelves")
+    fetch("http://localhost:4000/activeAccount")
+      .then((res) => res.json())
+      .then((data) => {
+        setActiveAccount(data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("activeUserId");
+    if (!userId) {
+      console.log("No logged in user, redirect to login");
+      return;
+    }
+  
+    fetch(`http://localhost:4000/accountShelf?userId=${userId}`)
       .then((res) => res.json())
       .then((data) => {
         const frontEndData = data.map((shelf) => ({
@@ -22,13 +39,13 @@ function Shelf() {
           setActiveShelf(frontEndData[0].id);
         }
       })
-
       .catch((err) => console.error(err));
   }, []);
 
   const toggleLeftbar = () => {
     setIsLeftbarOpen(!isLeftbarOpen);
     console.log(shelves);
+    console.log(activeAccount);
   };
 
   const handleUpdateBook = (shelfId, updatedBook) => {
@@ -48,24 +65,32 @@ function Shelf() {
 
   // Add a new shelf
   const handleAddShelf = async () => {
+    const userId = localStorage.getItem("activeUserId");
+    if (!userId) {
+      alert("No logged in user");
+      return;
+    }
+  
     const newId = shelves.length > 0 ? shelves[shelves.length - 1].id + 1 : 1;
     const newShelf = {
       id: newId,
       name: `Shelf ${newId}`,
       books: [],
       fav: false,
+      userId: parseInt(userId), // 👈 tie to active user
     };
+  
     try {
       const res = await fetch("http://localhost:4000/newshelf", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newShelf),
       });
-
+  
       if (!res.ok) throw new Error("Failed to add shelf");
       const { shelf } = await res.json();
-
-      setShelves((prev) => [...prev, { ...shelf, isNaming: true}]);
+  
+      setShelves((prev) => [...prev, { ...shelf, isNaming: true }]);
       setActiveShelf(newId);
     } catch (err) {
       console.error("Error adding shelf:", err);

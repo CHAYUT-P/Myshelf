@@ -7,10 +7,9 @@ function Home() {
     return(
     <div>
         <nav>
-            <a></a>
-            <a></a>
-            <a></a>
-            <a></a>
+            <a href="/register">register</a>
+            <a href="/login">login</a>
+            <a href="/shelves">shelves</a>
         </nav>
     </div>)
 }
