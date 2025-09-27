@@ -114,6 +114,39 @@ function App() {
     }
   };
 
+  const handleEditBook = async (shelfId, updatedBook) => {
+    try {
+      const res = await fetch(
+        `http://localhost:4000/shelves/${shelfId}/books/${updatedBook.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedBook),
+        }
+      );
+  
+      if (!res.ok) throw new Error("Failed to update book");
+      const { book: savedBook } = await res.json();
+  
+      setShelves((prevShelves) =>
+        prevShelves.map((shelf) =>
+          shelf.id === shelfId
+            ? {
+                ...shelf,
+                books: shelf.books.map((book) =>
+                  book.id === savedBook.id ? savedBook : book
+                ),
+              }
+            : shelf
+        )
+      );
+  
+      console.log("✅ Book updated:", savedBook);
+    } catch (error) {
+      console.error("❌ Error updating book:", error);
+    }
+  };
+
   const handleDeleteShelf = async (id) => {
     try {
       const res = await fetch(`http://localhost:4000/shelves/${id}`, {
@@ -168,6 +201,7 @@ function App() {
         isOpen={isLeftbarOpen}
         onRenameShelf={handleRenameShelf}
         handleUpdateBook={handleUpdateBook}
+        onEditBook={handleEditBook}
       />
     </div>
   );

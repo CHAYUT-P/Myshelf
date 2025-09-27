@@ -1,34 +1,12 @@
-import { useState } from "react";
-import "./Singlebook.css"; // ใช้ CSS เดียวกับ AddbookData
+import { useState,useEffect} from "react";
+import "./Singlebook.css"; 
 
-export default function SinglebookData({ book }) {
-  const [bookData, setbookData] = useState(
-    book || {
-      title: "",
-      author: "",
-      language: "",
-      pages: "",
-      currentPage: "",
-      publisher: "",
-      isbn: "",
-      publicationDate: "",
-      edition: "",
-      seriesName: "",
-      seriesDescription: "",
-      seriesCover: null,
-      volumeNumber: "",
-      primaryCategory: "",
-      genres: [],
-      synopsis: "",
-      coverImage: null,
-      tags: [],
-      status: "",
-      rating: "",
-      progress: "",
-      startDate: "",
-      endDate: "",
-    }
-  );
+export default function SinglebookData({ book , onChange}) {
+  const [bookData, setBookData] = useState(book);
+
+  useEffect(() => {
+    setBookData(book);
+  }, [book]);
 
   const progress =
   bookData.currentPage == 0 || bookData.pages == 0
@@ -38,14 +16,17 @@ export default function SinglebookData({ book }) {
         Math.round((bookData.currentPage / bookData.pages) * 100)
       );
 
-const handleChange = (e) => {
-  const { name, value, files } = e.target;
-  if (files) {
-    setBookData((prev) => ({ ...prev, [name]: files[0] }));
-  } else {
-    setBookData((prev) => ({ ...prev, [name]: value }));
-  }
-};
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    const newData = files
+      ? { ...bookData, [name]: files[0] }
+      : { ...bookData, [name]: value };
+
+    setBookData(newData);
+    onChange(newData);
+  };
 
 return (
   <div className="add-book-content">
