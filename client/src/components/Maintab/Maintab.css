@@ -44,8 +44,8 @@
   background-color: #ffffff;
   border: solid 1px #ccc;
   outline: none;
-  width: 270px;
-  height: 391px;
+  width: 240px;
+  height: 360px;
   border-radius: 10px;
 }
 
@@ -65,7 +65,8 @@
 
 .book-item {
   padding-top: 50px;
-  width: 270px;
+  width: 240px;
+  height: 360px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,8 +79,8 @@
 }
 
 .book-cover {
-  width: 150px;
-  height: 220px;
+  width: 120px;
+  height: 176px;
   border-radius: 6px;
   background-color: #ccc; /* gray if no cover */
 }
