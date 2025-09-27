@@ -13,6 +13,7 @@ export default function MainTab({
   isOpen,
   onRenameShelf,
   handleUpdateBook,
+  onEditBook,
 }) {
   const [selectedBookId, setSelectedBookId] = useState(null);
   const [showAddBookModal, setShowAddBookModal] = useState(false);
@@ -155,6 +156,7 @@ export default function MainTab({
               selectedBookId={selectedBookId}
               shelves={shelves}
               activeShelfId={activeShelf.id}
+              onEditBook={onEditBook}
             />
           </li>
         </ul>

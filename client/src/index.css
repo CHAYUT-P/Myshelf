@@ -4,6 +4,7 @@ html,body{
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
-  font-family:sans-serif;
+  font-family:sans-serif, Serif, Mono;
+
   color: #515151;
 }

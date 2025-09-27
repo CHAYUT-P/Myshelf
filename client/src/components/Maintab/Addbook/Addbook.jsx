@@ -440,6 +440,7 @@ export default function AddBook({ isOpen, onClose, onAdd }) {
                   onChange={handleChange}
                 >
                   <option value="">Select Status</option>
+                  <option value="notstarted">Not started</option>
                   <option value="reading">Reading</option>
                   <option value="completed">Completed</option>
                   <option value="dropped">Dropped</option>

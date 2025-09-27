@@ -11,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 let shelves = [{ id: 1, name: "Shelf 1", books: [] , fav: false}];
+let accounts = []
 
 app.post("/newshelf", (req, res) => {
   const shelf = req.body;
@@ -84,4 +85,27 @@ app.put("/shelves/:shelfId/books/:bookId", (req, res) => {
 
 app.listen(PORT, () => {
 console.log(`✅ Server running at http://localhost:${PORT}`);
+});
+
+app.post("/register", (req, res) => {
+  const { email, username, password } = req.body;
+
+  const newAccount = {
+    id: Date.now(),
+    email,
+    username,
+    password,
+  };
+
+  accounts.push(newAccount);
+  res.status(201).json({ message: "Account added", account: newAccount });
+});
+
+app.get("/register", (req, res) => {
+  res.json(accounts);
+});
+
+// --- Server Start ---
+app.listen(PORT, () => {
+  console.log(`✅ Server running at http://localhost:${PORT}`);
 });
