@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt"
 
 dotenv.config();
 
@@ -10,11 +11,24 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-let shelves = [{ id: 1, name: "Shelf 1", books: [] , fav: false}];
+let shelves = [];
 let accounts = []
+let activeID = null
+let activeshelf = []
 
 app.post("/newshelf", (req, res) => {
-  const shelf = req.body;
+  if (!activeID) {
+    return res.status(401).json({ message: "No active account" });
+  }
+
+  const shelf = {
+    id: req.body.id,
+    name: req.body.name,
+    books: [],
+    fav: false,
+    userId: activeID,
+  };
+
   shelves.push(shelf);
   res.status(201).json({ message: "Shelf added", shelf });
 });
@@ -22,6 +36,18 @@ app.post("/newshelf", (req, res) => {
 app.get("/shelves", (req, res) => {
   res.json(shelves);
 });
+
+app.get("/accountShelf", (req, res) => {
+  const userId = parseInt(req.query.userId);
+
+  if (!userId) {
+    return res.status(400).json({ message: "No userId provided" });
+  }
+
+  const userShelves = shelves.filter((shelf) => shelf.userId === userId);
+  res.json(userShelves);
+});
+
 
 app.delete("/shelves/:id", async (req, res) => {
   const id = parseInt(req.params.id);
@@ -51,7 +77,6 @@ app.post("/shelves/:id/books", async (req, res) =>{
   res.json({ book: newbook })
 })
 
-// GET book by shelfId + bookId
 app.get("/shelves/:shelfId/books/:bookId", (req, res) => {
   const shelfId = parseInt(req.params.shelfId);
   const bookId = parseInt(req.params.bookId);
@@ -83,29 +108,62 @@ app.put("/shelves/:shelfId/books/:bookId", (req, res) => {
   res.json({book});
 });
 
-app.listen(PORT, () => {
-console.log(`✅ Server running at http://localhost:${PORT}`);
-});
-
-app.post("/register", (req, res) => {
+app.post("/register", async(req, res) => {
   const { email, username, password } = req.body;
+
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const newAccount = {
     id: Date.now(),
     email,
     username,
-    password,
+    password:hashedPassword,
   };
-
+  activeID = newAccount.id
   accounts.push(newAccount);
   res.status(201).json({ message: "Account added", account: newAccount });
 });
 
-app.get("/register", (req, res) => {
+app.post("/login", async(req, res) => {
+  const { username, email, password } = req.body;
+
+  // Find account by username OR email
+  const user = accounts.find(
+    (a) =>
+      (a.username === username || a.email === email)
+  );
+
+  if (!user) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(401).json({ error: "Invalid password" });
+  }
+
+  // Save active account
+  activeID = user.id;
+
+  res.json({ message: "Login successful", account: user });
+});
+
+
+
+app.get("/account", (req, res) => {
   res.json(accounts);
 });
 
-// --- Server Start ---
+// get the currently active account
+app.get("/activeAccount", (req, res) => {
+  const activeUser = accounts.find(a => a.id === activeID);
+  if (!activeUser) {
+    return res.status(404).json({ message: "No active account" });
+  }
+  res.json(activeUser);
+});
+
+
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
 });

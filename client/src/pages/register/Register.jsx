@@ -15,7 +15,7 @@ function Shelf() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:4000/register")
+    fetch("http://localhost:4000/account")
       .then((res) => res.json())
       .then((data) => {
         setAllAccount(data);
@@ -71,6 +71,8 @@ function Shelf() {
 
         if (!res.ok) throw new Error("Failed to add shelf");
         const { account } = await res.json();
+
+        localStorage.setItem("activeUserId", account.id);
 
         setAccount(account);
         navigate("/shelves");
