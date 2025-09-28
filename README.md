@@ -10,7 +10,9 @@ A simple bookshelf web application built with React (Vite) and Express backend, 
 
 •	Mark favorite shelves.
 
-<img width="1280" height="720" alt="Screenshot 2025-09-28 at 20 32 35" src="https://github.com/user-attachments/assets/c522bbf1-9dd5-4a40-9684-103fa86780e1" />
+## Screenshot
+
+<img width="640" height="480" alt="Screenshot 2025-09-28 at 20 32 35" src="https://github.com/user-attachments/assets/c522bbf1-9dd5-4a40-9684-103fa86780e1" />
 
 ### 🎨 Frontend & UI
 
