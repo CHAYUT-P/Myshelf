@@ -1,12 +1,58 @@
-# React + Vite
+# MyShelf
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple bookshelf web application built with React (Vite) and Express backend, where users can:
 
-Currently, two official plugins are available:
+	•	Register and login securely (with hashed passwords using bcrypt).
+	•	Create and manage multiple shelves.
+	•	Add, edit, and delete books inside shelves.
+	•	Mark favorite shelves.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🎨 Frontend & UI
 
-## Expanding the ESLint configuration
+[React (Vite)](https://react.dev/) — Fast development and build tool for modern React apps
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+[React Router](https://reactrouter.com) — Client-side routing and navigation
+
+[CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS) — Custom styling for components
+
+
+
+### ⚙️ Backend & API
+[Express.js](https://expressjs.com/) — Minimal and flexible Node.js web framework
+
+[bcrypt](https://www.npmjs.com/package/bcrypt) — Secure password hashing for authentication
+
+[CORS](https://www.npmjs.com/package/cors) — Enable cross-origin requests
+
+[dotenv](https://www.npmjs.com/package/dotenv) — Environment variable management
+
+### 🗄 Database (Current & Future)
+
+[MySQL / PostgreSQL](https://www.mysql.com) — Relational database
+
+
+
+## Quick Start
+
+1. Clone the repository
+   
+	```bash
+	git clone https://github.com/your-username/myshelf.git
+	cd myshelf
+	```
+
+2. Install dependencies
+
+	frontend
+	```bash
+	cd frontend
+	npm install
+	```
+
+3. Install dependencies
+
+	backend
+	```bash
+	cd backend
+	npm install
+	```
