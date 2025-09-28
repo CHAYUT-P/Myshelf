@@ -1,11 +1,16 @@
-# MyShelf
+<img width="1512" height="739" alt="Screenshot 2025-09-28 at 20 32 35" src="https://github.com/user-attachments/assets/c522bbf1-9dd5-4a40-9684-103fa86780e1" /># MyShelf
 
 A simple bookshelf web application built with React (Vite) and Express backend, where users can:
 
-	•	Register and login securely (with hashed passwords using bcrypt).
-	•	Create and manage multiple shelves.
-	•	Add, edit, and delete books inside shelves.
-	•	Mark favorite shelves.
+•	Register and login securely (with hashed passwords using bcrypt).
+
+•	Create and manage multiple shelves.
+
+•	Add, edit, and delete books inside shelves.
+
+•	Mark favorite shelves.
+
+<img src="">
 
 ### 🎨 Frontend & UI
 
