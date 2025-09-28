@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt"
 
 dotenv.config();
 
@@ -107,32 +108,38 @@ app.put("/shelves/:shelfId/books/:bookId", (req, res) => {
   res.json({book});
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", async(req, res) => {
   const { email, username, password } = req.body;
+
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const newAccount = {
     id: Date.now(),
     email,
     username,
-    password,
+    password:hashedPassword,
   };
   activeID = newAccount.id
   accounts.push(newAccount);
   res.status(201).json({ message: "Account added", account: newAccount });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async(req, res) => {
   const { username, email, password } = req.body;
 
   // Find account by username OR email
   const user = accounts.find(
     (a) =>
-      (a.username === username || a.email === email) &&
-      a.password === password
+      (a.username === username || a.email === email)
   );
 
   if (!user) {
     return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(401).json({ error: "Invalid password" });
   }
 
   // Save active account
