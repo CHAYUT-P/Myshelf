@@ -8,19 +8,26 @@ A simple bookshelf web application built with React (Vite) and Express backend, 
 	•	Mark favorite shelves.
 
 ### 🎨 Frontend & UI
+
 [React (Vite)](https://react.dev/) — Fast development and build tool for modern React apps
+
 [React Router](https://reactrouter.com) — Client-side routing and navigation
+
 [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS) — Custom styling for components
 
 
 
 ### ⚙️ Backend & API
 [Express.js](https://expressjs.com/) — Minimal and flexible Node.js web framework
+
 [bcrypt](https://www.npmjs.com/package/bcrypt) — Secure password hashing for authentication
+
 [CORS](https://www.npmjs.com/package/cors) — Enable cross-origin requests
+
 [dotenv](https://www.npmjs.com/package/dotenv) — Environment variable management
 
 ### 🗄 Database (Current & Future)
+
 [MySQL / PostgreSQL](https://www.mysql.com) — Relational database
 
 
