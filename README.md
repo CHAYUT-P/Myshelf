@@ -2,10 +2,18 @@
 
 A simple bookshelf web application built with React (Vite) and Express backend, where users can:
 
-	•	Register and login securely (with hashed passwords using bcrypt).
-	•	Create and manage multiple shelves.
-	•	Add, edit, and delete books inside shelves.
-	•	Mark favorite shelves.
+•	Register and login securely (with hashed passwords using bcrypt).
+
+•	Create and manage multiple shelves.
+
+•	Add, edit, and delete books inside shelves.
+
+•	Mark favorite shelves.
+
+### Screenshot
+
+<img src="./client/src/assets/Screenshot%202025-09-28%20at%2020.33.59.png"> 
+	
 
 ### 🎨 Frontend & UI
 
