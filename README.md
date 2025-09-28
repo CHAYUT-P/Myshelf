@@ -8,7 +8,12 @@ A simple bookshelf web application built with React (Vite) and Express backend, 
 	•	Mark favorite shelves.
 
 
-```bash
-git clone https://github.com/your-username/myshelf.git
-cd myshelf
-```
+Quick Start
+
+1. Clone the repository
+	```bash
+	git clone https://github.com/your-username/myshelf.git
+	cd myshelf
+	```
+
+
