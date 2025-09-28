@@ -7,6 +7,26 @@ A simple bookshelf web application built with React (Vite) and Express backend, 
 	•	Add, edit, and delete books inside shelves.
 	•	Mark favorite shelves.
 
+🎨 Frontend & UI
+	•	React (Vite) — Fast development and build tool for modern React apps
+	•	React Router — Client-side routing and navigation
+	•	CSS3 — Custom styling for components
+
+⸻
+
+⚙️ Backend & API
+	•	Express.js — Minimal and flexible Node.js web framework
+	•	bcrypt — Secure password hashing for authentication
+	•	CORS — Enable cross-origin requests
+	•	dotenv — Environment variable management
+
+🗄 Database (Current & Future)
+	•	In-memory arrays — For demo and testing (resets on restart)
+	•	Ready to extend to:
+	•	MySQL / PostgreSQL — Relational database
+	•	MongoDB — NoSQL document database
+
+
 
 ### Quick Start
 
@@ -25,7 +45,7 @@ A simple bookshelf web application built with React (Vite) and Express backend, 
 	npm install
 	```
 
-2. Install dependencies
+3. Install dependencies
 
 	backend
 	```bash
