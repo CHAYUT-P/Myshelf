@@ -21,22 +21,31 @@ function Shelf() {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleLogin = () => {
-    // find by username OR email
-    const user = allAccount.find(
-      (u) =>
-        (u.username === account.username || u.email === account.username) &&
-        u.password === account.password
-    );
-
-    if (!user) {
-      alert("Invalid username/email or password");
-      return;
+  const handleLogin = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: account.username,
+          email: account.username,
+          password: account.password,
+        }),
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        alert(data.error || "Login failed");
+        return;
+      }
+  
+      localStorage.setItem("activeUserId", data.account.id);
+      navigate("/shelves");
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong.");
     }
-
-    localStorage.setItem("activeUserId", user.id);
-
-    navigate("/shelves");
   };
 
   const handleChange = (e) => {
