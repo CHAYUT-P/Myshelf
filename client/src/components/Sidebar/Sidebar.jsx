@@ -15,6 +15,8 @@ export default function Sidebar({
   onDeleteShelf,
   startRenaming,
   onFavShelf,
+  activeAccount,
+  
 }) {
   const [openMenu, setOpenMenu] = useState({ section: null, id: null });
   const sidebarRef = useRef(null);

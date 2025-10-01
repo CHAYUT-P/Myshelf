@@ -8,7 +8,6 @@ function Shelf() {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);
   const [shelves, setShelves] = useState([]);
   const [activeShelf, setActiveShelf] = useState(1);
-  const [allccount,setAllAccount] = useState([])
   const [activeAccount,setActiveAccount] = useState([])
 
   useEffect(() => {
@@ -218,6 +217,7 @@ function Shelf() {
         startRenaming={startRenaming}
         onDeleteShelf={handleDeleteShelf}
         onFavShelf={onFavShelf}
+        activeAccount={activeAccount}
       />
       <MainTab
         activeShelfId={activeShelf}

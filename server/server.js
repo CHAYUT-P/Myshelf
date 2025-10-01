@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt"
@@ -14,7 +13,6 @@ app.use(express.json());
 let shelves = [];
 let accounts = []
 let activeID = null
-let activeshelf = []
 
 app.post("/newshelf", (req, res) => {
   if (!activeID) {
