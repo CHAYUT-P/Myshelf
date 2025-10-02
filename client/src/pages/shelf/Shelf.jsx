@@ -3,48 +3,65 @@ import "./Shelf.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
 import MainTab from "../../components/Maintab/Maintab";
+import { useNavigate } from "react-router-dom";
 
 function Shelf() {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);
   const [shelves, setShelves] = useState([]);
-  const [activeShelf, setActiveShelf] = useState(1);
-  const [activeAccount,setActiveAccount] = useState([])
+  const [activeShelf, setActiveShelf] = useState(null);
+  const [activeAccount, setActiveAccount] = useState(null);
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch("http://localhost:4000/activeAccount")
-      .then((res) => res.json())
-      .then((data) => {
-        setActiveAccount(data);
-      })
-      .catch((err) => console.error(err));
-  }, []);
-
-  useEffect(() => {
-    const userId = localStorage.getItem("activeUserId");
-    if (!userId) {
-      console.log("No logged in user, redirect to login");
-      return;
+    if (!token) {
+      navigate("/login");
     }
-  
-    fetch(`http://localhost:4000/accountShelf?userId=${userId}`)
+  }, [token, navigate]);
+
+  useEffect(() => {
+    if (!token) return;
+
+    fetch("http://localhost:4000/activeAccount", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          navigate("/login");
+        }
+        return res.json();
+      })
+      .then((data) => setActiveAccount(data))
+      .catch((err) => console.error(err));
+  }, [token, navigate]);
+
+  useEffect(() => {
+    if (!token) return;
+
+    fetch("http://localhost:4000/accountShelf", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        const frontEndData = data.map((shelf) => ({
+        const frontendData = data.map((shelf) => ({
           ...shelf,
           isNaming: false,
         }));
-        setShelves(frontEndData);
-        if (frontEndData.length > 0) {
-          setActiveShelf(frontEndData[0].id);
+        setShelves(frontendData);
+        if (frontendData.length > 0) {
+          setActiveShelf(frontendData[0].id);
         }
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [token]);
 
   const toggleLeftbar = () => {
     setIsLeftbarOpen(!isLeftbarOpen);
-    console.log(shelves);
-    console.log(activeAccount);
   };
 
   const handleUpdateBook = (shelfId, updatedBook) => {
@@ -62,33 +79,29 @@ function Shelf() {
     );
   };
 
-  // Add a new shelf
+  // ✅ Add shelf with JWT
   const handleAddShelf = async () => {
-    const userId = localStorage.getItem("activeUserId");
-    if (!userId) {
-      alert("No logged in user");
-      return;
-    }
-  
-    const newId = shelves.length > 0 ? shelves[shelves.length - 1].id + 1 : 1;
-    const newShelf = {
-      id: newId,
-      name: `Shelf ${newId}`,
-      books: [],
-      fav: false,
-      userId: parseInt(userId), // 👈 tie to active user
-    };
-  
     try {
+      const newId = shelves.length > 0 ? shelves[shelves.length - 1].id + 1 : 1;
+      const newShelf = {
+        id: newId,
+        name: `Shelf ${newId}`,
+        books: [],
+        fav: false,
+      };
+
       const res = await fetch("http://localhost:4000/newshelf", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(newShelf),
       });
-  
+
       if (!res.ok) throw new Error("Failed to add shelf");
       const { shelf } = await res.json();
-  
+
       setShelves((prev) => [...prev, { ...shelf, isNaming: true }]);
       setActiveShelf(newId);
     } catch (err) {
@@ -96,7 +109,6 @@ function Shelf() {
     }
   };
 
-  // Select a shelf
   const handleSelectShelf = (id) => {
     setActiveShelf(id);
   };
@@ -109,32 +121,36 @@ function Shelf() {
     );
   };
 
-  // Rename a shelf
   const handleRenameShelf = (id, newName) => {
-    const updatedShelves = shelves.map((shelf) =>
-      shelf.id === id ? { ...shelf, name: newName, isNaming: false } : shelf
+    setShelves((prev) =>
+      prev.map((shelf) =>
+        shelf.id === id ? { ...shelf, name: newName, isNaming: false } : shelf
+      )
     );
-    setShelves(updatedShelves);
   };
 
   const handleAddBook = async (shelfId, book) => {
     try {
       const res = await fetch(`http://localhost:4000/shelves/${shelfId}/books`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(book),
       });
+
       const { book: savedBook } = await res.json();
-      
-      const updatedShelves = shelves.map((shelf) =>
-        shelf.id === shelfId
-          ? { ...shelf, books: [...shelf.books, savedBook] }
-          : shelf
+
+      setShelves((prev) =>
+        prev.map((shelf) =>
+          shelf.id === shelfId
+            ? { ...shelf, books: [...shelf.books, savedBook] }
+            : shelf
+        )
       );
-  
-      setShelves(updatedShelves);
-    } catch (error) {
-      console.error("Error deleting shelf:", err);
+    } catch (err) {
+      console.error("Error adding book:", err);
     }
   };
 
@@ -144,28 +160,29 @@ function Shelf() {
         `http://localhost:4000/shelves/${shelfId}/books/${updatedBook.id}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(updatedBook),
         }
       );
-  
+
       if (!res.ok) throw new Error("Failed to update book");
       const { book: savedBook } = await res.json();
-  
-      setShelves((prevShelves) =>
-        prevShelves.map((shelf) =>
+
+      setShelves((prev) =>
+        prev.map((shelf) =>
           shelf.id === shelfId
             ? {
                 ...shelf,
-                books: shelf.books.map((book) =>
-                  book.id === savedBook.id ? savedBook : book
+                books: shelf.books.map((b) =>
+                  b.id === savedBook.id ? savedBook : b
                 ),
               }
             : shelf
         )
       );
-  
-      console.log("✅ Book updated:", savedBook);
     } catch (error) {
       console.error("❌ Error updating book:", error);
     }
@@ -175,15 +192,15 @@ function Shelf() {
     try {
       const res = await fetch(`http://localhost:4000/shelves/${id}`, {
         method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       if (!res.ok) throw new Error("Failed to delete shelf");
-  
-      const updatedShelves = shelves.filter((shelf) => shelf.id !== id);
-      setShelves(updatedShelves);
-  
+
+      setShelves((prev) => prev.filter((shelf) => shelf.id !== id));
+
       if (activeShelf === id) {
-        setActiveShelf(updatedShelves.length > 0 ? updatedShelves[0].id : null);
+        setActiveShelf(shelves.length > 0 ? shelves[0].id : null);
       }
     } catch (err) {
       console.error("Error deleting shelf:", err);
@@ -191,11 +208,11 @@ function Shelf() {
   };
 
   const onFavShelf = (id) => {
-    const updatedShelves = shelves.map((shelf) =>
-      shelf.id === id ? { ...shelf, fav: !shelf.fav } : shelf
+    setShelves((prev) =>
+      prev.map((shelf) =>
+        shelf.id === id ? { ...shelf, fav: !shelf.fav } : shelf
+      )
     );
-    setShelves(updatedShelves);
-    console.log(shelves);
   };
 
   return (

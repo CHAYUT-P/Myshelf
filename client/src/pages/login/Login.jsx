@@ -40,7 +40,7 @@ function Shelf() {
         return;
       }
   
-      localStorage.setItem("activeUserId", data.account.id);
+      localStorage.setItem("token", data.token);      
       navigate("/shelves");
     } catch (err) {
       console.error(err);
