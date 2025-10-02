@@ -10,25 +10,20 @@ function Shelf() {
     confirmPassword: "",
   });
 
-  const [allAccount, setAllAccount] = useState();
+  const [allAccount, setAllAccount] = useState([]);
   const [emailExists, setEmailExists] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:4000/account")
       .then((res) => res.json())
-      .then((data) => {
-        setAllAccount(data);
-      })
+      .then((data) => setAllAccount(data))
       .catch((err) => console.error(err));
   }, []);
 
   const handleChange = (e) => {
-    setAccount({
-      ...account,
-      [e.target.name]: e.target.value,
-    });
-    console.log(account);
+    const updated = { ...account, [e.target.name]: e.target.value };
+    setAccount(updated);
 
     if (e.target.name === "email" && allAccount.length > 0) {
       const exists = allAccount.some((a) => a.email === e.target.value);
@@ -36,7 +31,7 @@ function Shelf() {
     }
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async () => {
     if (emailExists) {
       alert("This email is already registered!");
       return;
@@ -48,37 +43,38 @@ function Shelf() {
     }
 
     if (
-      account.password == "" ||
-      account.email == "" ||
-      account.username == "" ||
-      account.confirmPassword == ""
+      !account.password ||
+      !account.email ||
+      !account.username ||
+      !account.confirmPassword
     ) {
-      alert("error");
-    } else {
-      const newaccount = {
-        email: account.email,
-        username: account.username,
-        password: account.password,
-        confirmPassword: account.confirmPassword,
-      };
+      alert("All fields are required!");
+      return;
+    }
 
-      try {
-        const res = await fetch("http://localhost:4000/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newaccount),
-        });
+    try {
+      const res = await fetch("http://localhost:4000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: account.email,
+          username: account.username,
+          password: account.password,
+        }),
+      });
 
-        if (!res.ok) throw new Error("Failed to add shelf");
-        const { account } = await res.json();
+      if (!res.ok) throw new Error("Failed to register");
 
-        localStorage.setItem("activeUserId", account.id);
+      const data = await res.json();
 
-        setAccount(account);
-        navigate("/shelves");
-      } catch (err) {
-        console.error("Error adding shelf:", err);
-      }
+      // ✅ store JWT token
+      localStorage.setItem("token", data.token);
+
+      // ✅ redirect after registration
+      navigate("/shelves");
+    } catch (err) {
+      console.error("Error registering:", err);
+      alert("Registration failed.");
     }
   };
 
@@ -90,10 +86,9 @@ function Shelf() {
           name="email"
           type="email"
           placeholder="Email"
-          value={account.email || ""}
+          value={account.email}
           onChange={handleChange}
         />
-
         <input
           name="username"
           type="text"
@@ -118,7 +113,7 @@ function Shelf() {
 
         <button onClick={handleRegister}>Register</button>
         <label>
-          Already have account? <a href="/login">Login</a>
+          Already have an account? <a href="/login">Login</a>
         </label>
       </div>
     </div>

@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -12,19 +13,28 @@ app.use(express.json());
 
 let shelves = [];
 let accounts = []
-let activeID = null
+const JWT_SECRET = process.env.JWT_SECRET || "my_secret_key";
 
-app.post("/newshelf", (req, res) => {
-  if (!activeID) {
-    return res.status(401).json({ message: "No active account" });
-  }
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
+  if (!token) return res.status(401).json({ error: "Access denied" });
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ error: "Invalid token" });
+    req.user = user; // user.id will be available
+    next();
+  });
+}
+
+app.post("/newshelf", authenticateToken, (req, res) => {
   const shelf = {
     id: req.body.id,
     name: req.body.name,
     books: [],
     fav: false,
-    userId: activeID,
+    userId: req.user.id,
   };
 
   shelves.push(shelf);
@@ -35,14 +45,8 @@ app.get("/shelves", (req, res) => {
   res.json(shelves);
 });
 
-app.get("/accountShelf", (req, res) => {
-  const userId = parseInt(req.query.userId);
-
-  if (!userId) {
-    return res.status(400).json({ message: "No userId provided" });
-  }
-
-  const userShelves = shelves.filter((shelf) => shelf.userId === userId);
+app.get("/accountShelf", authenticateToken, (req, res) => {
+  const userShelves = shelves.filter((shelf) => shelf.userId === req.user.id);
   res.json(userShelves);
 });
 
@@ -106,20 +110,21 @@ app.put("/shelves/:shelfId/books/:bookId", (req, res) => {
   res.json({book});
 });
 
-app.post("/register", async(req, res) => {
+app.post("/register", async (req, res) => {
   const { email, username, password } = req.body;
-
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const newAccount = {
     id: Date.now(),
     email,
     username,
-    password:hashedPassword,
+    password: hashedPassword,
   };
-  activeID = newAccount.id
+
   accounts.push(newAccount);
-  res.status(201).json({ message: "Account added", account: newAccount });
+
+  const token = jwt.sign({ id: newAccount.id }, JWT_SECRET, { expiresIn: "1h" });
+  res.status(201).json({ message: "Account added", account: newAccount, token });
 });
 
 app.post("/login", async(req, res) => {
@@ -141,9 +146,9 @@ app.post("/login", async(req, res) => {
   }
 
   // Save active account
-  activeID = user.id;
+  const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
+  res.json({ message: "Login successful", token });
 
-  res.json({ message: "Login successful", account: user });
 });
 
 
