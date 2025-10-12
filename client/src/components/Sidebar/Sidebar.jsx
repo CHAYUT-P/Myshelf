@@ -33,7 +33,15 @@ export default function Sidebar({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const logOut = () => {
+    // 🧹 Clear auth data
+    localStorage.removeItem("token");
+    localStorage.removeItem("activeUserId");
+    localStorage.removeItem("username");
+    window.location.href = "/login";
   
+  };
 
   return (
     <div
@@ -41,6 +49,9 @@ export default function Sidebar({
       className={`sidebar ${isOpen ? "show" : "hide"}`}
       onClick={() => setOpenMenu({ section: null, id: null })}
     >
+      <div className="account">
+        <button onClick={logOut}>Logout</button>
+      </div>
       {/* Favourite Section */}
       <div className="fav-sidebar">
         <div className="fav-header">
