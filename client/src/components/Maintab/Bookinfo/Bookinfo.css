@@ -1,58 +1,55 @@
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.1); /* semi-transparent black */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* higher than topbar, sidebar, main-tab */
-}
-
-.modal-title-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f5f5f5;
-  padding: 10px 0px;
-  width: 100%;
-  font-weight: bold;
-  border-bottom: 1px solid #ddd;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  
-}
-
 .modal-content-bookdetail {
   background-color: #fff;
   border-radius: 10px;
   width: 60vw;
-  max-height: 90vh;
   height: 90vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-height: 90vh;
   display: flex;
-  align-items: center;
   flex-direction: column;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 10000;
+  overflow: hidden; 
+}
+
+.modal-info-body {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.modal-title-bar {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .modal-btn {
+  flex-shrink: 0;
   display: flex;
-  width: 100%;
   justify-content: flex-end;
   gap: 10px;
   padding: 10px 15px;
   border-top: 1px solid #ddd;
   background-color: #f5f5f5;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
+
 .modal-btn button {
-  color: rgb(81, 81, 81);
+  color: #515151;
   background-color: #f5f5f5;
   padding: 6px 14px;
   border: solid 1px;
@@ -61,9 +58,7 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-.modal-btn button:hover{
-  color:#f5f5f5;
-  background-color: rgb(81, 81, 81);
+.modal-btn button:hover {
+  color: #f5f5f5;
+  background-color: #515151;
 }
-
-

@@ -106,10 +106,20 @@ app.put("/shelves/:shelfId/books/:bookId", (req, res) => {
   const book = shelf.books.find((b) => b.id === bookId);
   if (!book) return res.status(404).json({ message: "Book not found" });
 
-  Object.assign(book, req.body);
-  res.json({book});
-});
+  if (book.bookType === "single") {
+    Object.assign(book, req.body);
+  }
 
+  else if (book.bookType === "series") {
+    if (req.body.books && Array.isArray(req.body.books)) {
+      book.books = req.body.books;
+    }
+
+    Object.assign(book, req.body);
+  }
+
+  res.json({ message: "Book updated successfully", book });
+});
 app.post("/register", async (req, res) => {
   const { email, username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -157,9 +167,8 @@ app.get("/account", (req, res) => {
   res.json(accounts);
 });
 
-// get the currently active account
-app.get("/activeAccount", (req, res) => {
-  const activeUser = accounts.find(a => a.id === activeID);
+app.get("/activeAccount", authenticateToken, (req, res) => {
+  const activeUser = accounts.find((a) => a.id === req.user.id);
   if (!activeUser) {
     return res.status(404).json({ message: "No active account" });
   }
