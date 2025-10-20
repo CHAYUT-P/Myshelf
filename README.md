@@ -30,13 +30,17 @@ A simple bookshelf web application built with React (Vite) and Express backend, 
 
 [bcrypt](https://www.npmjs.com/package/bcrypt) — Secure password hashing for authentication
 
+[jsonwebtoken (JWT)](https://www.npmjs.com/package/jsonwebtoken) — Token-based user authentication
+
 [CORS](https://www.npmjs.com/package/cors) — Enable cross-origin requests
 
 [dotenv](https://www.npmjs.com/package/dotenv) — Environment variable management
 
-### 🗄 Database (Current & Future)
 
-[MySQL / PostgreSQL](https://www.mysql.com) — Relational database
+### 🗄 Database (Current & Future)
+Currently using local JSON or in-memory data (for testing)
+
+Future plan: migrate to #MySQL / PostgreSQL
 
 
 
@@ -55,6 +59,7 @@ A simple bookshelf web application built with React (Vite) and Express backend, 
 	```bash
 	cd frontend
 	npm install
+ 	npm run dev
 	```
 
 3. Install dependencies
@@ -63,5 +68,6 @@ A simple bookshelf web application built with React (Vite) and Express backend, 
 	```bash
 	cd backend
 	npm install
+ 	npm start
 	```
 
